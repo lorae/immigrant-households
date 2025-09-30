@@ -91,6 +91,6 @@ dat_path <- glue("{download_dir}/usa_{extract_num}.dat.gz")
 ddi <- read_ipums_ddi(ddi_path)
 ipums_tb <- read_ipums_micro(ddi, var_attrs = c()) 
 
-con <- dbConnect(duckdb::duckdb(), "{db_dir}/ipums.duckdb")
+con <- dbConnect(duckdb::duckdb(), glue("{db_dir}/ipums.duckdb"))
 dbWriteTable(con, "ipums", ipums_tb, overwrite = TRUE)
 DBI::dbDisconnect(con)
