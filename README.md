@@ -1,4 +1,4 @@
-# Immigrant Households
+# 👨‍👩‍👧 Immigrant Households
 Replication code and analysis of American immigrant household configurations
 
 ### 📦️ Part A: Clone the repo and configure the R project
