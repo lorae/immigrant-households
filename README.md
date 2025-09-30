@@ -1,7 +1,8 @@
 # 👨‍👩‍👧 Immigrant Households
 Replication code and analysis of American immigrant household configurations
 
-
+## 📊 Key Findings
+Forthcoming.
 
 ## ⚡ Quick Start
 For experienced users who just want to get the project running right away. If you
