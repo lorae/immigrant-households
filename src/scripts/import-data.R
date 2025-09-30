@@ -8,7 +8,7 @@
 #    .Renviron
 #
 
-# ----- Step 0: Load packages ----- #
+# ----- Step 0: Configuration ----- #
 library("dplyr")
 library("duckdb")
 library("ipumsr")
@@ -29,6 +29,9 @@ if (api_key == "" || api_key == "your_ipums_api_key") {
 print(paste0("IPUMS API key: ", api_key))
 set_ipums_api_key(api_key)
 
+# Set the destination directory for the IPUMS data pull
+download_dir <- "data/ipums-microdata"
+
 # ----- Step 1: Define, submit, and wait for data extract ----- #
 # Browse available samples and their aliases
 # get_sample_info("usa") |> print(n=200) 
@@ -43,10 +46,8 @@ ipums_extract <- define_extract_micro(
     "us1980a", # 1980 5% state
     "us1990a", # 1990 5% state
     "us2000a", # 2000 5% 
-    "us2006a", # 2006 ACS (1-year)
-    "us2011a", # 2011 ACS (1-year)
-    "us2016a", # 2016 ACS (1-year)
-    "us2021a", # 2021 ACS (1-year)
+    "us2012e", # 2008-2012, ACS 5-year
+    "us2022c", # 2018-2022, ACS 5-year 
     "us2023a" # 2023 ACS (1-year)
   ),
   variables = c(
