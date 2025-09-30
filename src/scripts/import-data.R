@@ -29,8 +29,9 @@ if (api_key == "" || api_key == "your_ipums_api_key") {
 print(paste0("IPUMS API key: ", api_key))
 set_ipums_api_key(api_key)
 
-# Set the destination directory for the IPUMS data pull
+# Set the destination directories for the IPUMS data pull
 download_dir <- "data/ipums-microdata"
+db_dir <- "data/db"
 
 # ----- Step 1: Define, submit, and wait for data extract ----- #
 # Browse available samples and their aliases
@@ -84,3 +85,12 @@ extract_num <- sprintf("%05d", submitted$number)
 
 ddi_path <- glue("{download_dir}/usa_{extract_num}.xml")
 dat_path <- glue("{download_dir}/usa_{extract_num}.dat.gz")
+
+# ----- Step 3: Save to DuckDB ----- #
+
+ddi <- read_ipums_ddi(ddi_path)
+ipums_tb <- read_ipums_micro(ddi, var_attrs = c()) 
+
+con <- dbConnect(duckdb::duckdb(), "{db_dir}/ipums.duckdb")
+dbWriteTable(con, "ipums", ipums_tb, overwrite = TRUE)
+DBI::dbDisconnect(con)
