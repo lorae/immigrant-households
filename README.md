@@ -9,19 +9,19 @@ These steps will allow you to install the code on your computer that runs this p
 
     MacOS/Linux:
     
-    ```cmd
+    ```bash
     cd your/path/to/parent/directory
     ```
-    ```cmd
+    ```bash
     git clone https://github.com/lorae/immmigrant-households immigrant-households
     ```
     
     Windows:
     
-    ```bash
+    ```cmd
     cd your\path\to\parent\directory
     ```
-    ```bash
+    ```cmd
     git clone https://github.com/lorae/immigrant-households immigrant-households
     ```
 
@@ -31,9 +31,7 @@ Open `immigrant-households.Rproj` using your preferred IDE for R. (We use R Stud
     Every subsequent time you work with the project code, you should always open the `immigrant-households.Rproj` file
     at the beginning of your work session. This will avoid common issues with broken file paths or an incorrect working directory.
 
-3. **Initialize R environment**: Install all the dependencies (packages) needed to make the code run on your computer. 
-Depending on which packages you may have already installed on your computer, this setup step may take from a few minutes to over 
-an hour.
+3. **Initialize R environment**: Install all the dependencies (packages) needed to make the code run on your computer.
 
     First, ensure you have the package manager, `renv`, installed. Run the following in your R console:
     
@@ -53,13 +51,35 @@ an hour.
     At this point, a message will print into the console informing you that this project already has a lockfile. 
     Select option `1: Restore the project from the lockfile`. 
     
+4. **Clone the sibling repo, `dataduck`**: This project makes use of a bundle of functions that are unit-tested and generalized in a package called `dataduck`. Clone this repo in the same parent directory where you cloned `immigrant-households`.
+
+    🛑 Important: Do not clone this **inside** of the `immigrant-households` repo: instead, it should be a sibling, and they should be contained in the same folder structure.
+
+    MacOS/Linux:
+    
+    ```bash
+    cd your/path/to/parent/directory
+    ```
+    ```bash
+    git clone https://github.com/lorae/dataduck dataduck
+    ```
+    
+    Windows:
+    
+    ```cmd
+    cd your\path\to\parent\directory
+    ```
+    ```cmd
+    git clone https://github.com/lorae/dataduck dataduck
+    ```
+    
 ### 📥️ Part B: Download raw data from IPUMS USA
 
 The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from directly sharing the raw microdata extract, however,
-the data used in this analysis is freely available and simple to download after setting up an IPUMS USA account. In this step,
-we explain this process and how to "order" a data extract that exactly matches the one used in this study.
+the data used in this analysis is freely available after setting up an IPUMS USA account, and we provide an automated script that 
+writes the API call and downloads the exact data used in this analysis. 
 
-4. **Copy the file** `example.Renviron` to a new file named `.Renviron` in the project root directory. 
+5. **Copy the file** `example.Renviron` to a new file named `.Renviron` in the project root directory. 
 You can do this manually or use the following terminal commands:
 
     MacOS/Linux:
@@ -74,12 +94,24 @@ You can do this manually or use the following terminal commands:
     copy example.Renviron .Renviron
     ```
     
-5. **Set up your IPUMS USA API key**: If you don't already have one, set up a free account on 
+6. **Set up your IPUMS USA API key**: If you don't already have one, set up a free account on 
 [IPUMS USA](https://uma.pop.umn.edu/usa/user/new). Use the new account to login to the 
 [IPUMS API Key](https://account.ipums.org/api_keys) webpage. Copy your API key from this webpage.
 
-6. **Open `.Renviron`** and replace `your_ipums_api_key` with your actual key.  Do not include quotation marks. 
+7. **Open `.Renviron`** (‼️**not** `example.Renviron`!) and replace `your_ipums_api_key` with your actual key.  Do not include quotation marks. 
 R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate 
 from the codebase.
 
     🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `example.Renviron` is tracked, so do not put your actual API key in the example file.
+
+### 📊 Part C: Run the analysis scripts
+
+The code for this project is stored in the `src` folder. Code is divided into two main directories: `scripts` and `utils`. The `scripts` directory contains executable code which runs the analyses. The `utils` directory contains necessary accessory modules, typically in the form of functions, that are sourced when certain scripts run. These functions are separated due to their complexity. Code underlying them can be inspected more directly when they are isolated, and they are subject to a battery of unit tests.
+More generalized functions used in multiple of Lorae's projects are contained in the `dataduck` repo you cloned alongside this project.
+
+8. Run all code by sourcing the `run_all.R` script in your R console:
+
+    ```r
+    source("run_all.R")
+    ```
+    
