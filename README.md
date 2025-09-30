@@ -48,7 +48,7 @@ have trouble following these steps, please follow the **Detailed Start** guide b
 ## 📎 Detailed Start
 Detailed instructions for how to fully install and run this project code on your computer.
 
-### 📦️ Part A: Clone the repo and configure the R project
+###  Part A: Clone the repo and configure the R project
 
 These steps will allow you to install the code on your computer that runs this project and set up the environment so that it mimics the environment on which the code was developed.
 
@@ -100,7 +100,7 @@ and generalized in a package called `dataduck`. Clone this repo in the same pare
 `immigrant-households`.
 
     🛑 Important: Do not clone this **inside** of the `immigrant-households` repo: instead, it should be a 
-    sibling:it should contained in the same folder structure as `immigrant-households`.
+    sibling: it should contained in the same folder structure as `immigrant-households`.
 
     MacOS/Linux:
     
@@ -120,7 +120,7 @@ and generalized in a package called `dataduck`. Clone this repo in the same pare
     git clone https://github.com/lorae/dataduck dataduck
     ```
     
-### 📥️ Part B: Configure API Access
+###  Part B: Configure API Access
 
 The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from directly sharing the raw microdata extract, however,
 the data used in this analysis is freely available after setting up an IPUMS USA account, and we provide an automated script that 
@@ -151,7 +151,7 @@ from the codebase.
 
     🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `example.Renviron` is tracked, so do not put your actual API key in the example file.
 
-### 📊 Part C: Run the analysis scripts
+### Part C: Run the analysis scripts
 
 The code for this project is stored in the `src` folder:
 
@@ -167,3 +167,12 @@ The code for this project is stored in the `src` folder:
     
 ---
 
+## 📜 License
+MIT License (see LICENSE file).
+
+## 📚 Citation
+This repository accompanies ongoing research on immigrant household configurations.  
+A full citation will be provided upon publication.  
+
+For now, please cite as:  
+Stojanovic, Lorae, and Peter Hepburn. 2025. *Immigrant Households: Replication Code and Analysis*. GitHub. https://github.com/lorae/immigrant-households
