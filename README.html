@@ -356,6 +356,36 @@ display: none;
 <h1>👨‍👩‍👧 Immigrant Households</h1>
 <p>Replication code and analysis of American immigrant household
 configurations</p>
+<hr />
+<div id="quick-start" class="section level2">
+<h2>⚡ Quick Start</h2>
+<p>For experienced users who just want to get the project running right
+away. If you have trouble following these steps, please follow the
+<strong>Detailed Start</strong> guide below.</p>
+<ol style="list-style-type: decimal">
+<li><p>Navigate to the directory where you want the repo</p>
+<pre class="bash"><code>cd your/path/to/parent/directory</code></pre></li>
+<li><p>Clone both required repos side by side</p>
+<pre class="bash"><code>git clone https://github.com/lorae/immigrant-households immigrant-households
+git clone https://github.com/lorae/dataduck dataduck</code></pre></li>
+<li><p>Enter the main project</p>
+<pre class="bash"><code>cd immigrant-households</code></pre></li>
+<li><p>Copy the environment file and edit it with your own <a href="https://account.ipums.org/api_keys">IPUMS API key</a></p>
+<pre class="bash"><code>cp example.Renviron .Renviron
+# (Windows PowerShell: Copy-Item example.Renviron .Renviron)
+# IMPORTANT: open .Renviron and replace &quot;your_ipums_api_key&quot; with your actual key</code></pre></li>
+<li><p>Restore dependencies and run the analysis</p>
+<p>Open <code>immigrant-households.Rproj</code> in your preferred IDE,
+then in the R console:</p>
+<pre class="r"><code>renv::restore()
+source(&quot;run_all.R&quot;)</code></pre></li>
+</ol>
+<hr />
+</div>
+<div id="detailed-start" class="section level2">
+<h2>📎 Detailed Start</h2>
+<p>Detailed instructions for how to fully install and run this project
+code on your computer.</p>
 <div id="part-a-clone-the-repo-and-configure-the-r-project" class="section level3">
 <h3>📦️ Part A: Clone the repo and configure the R project</h3>
 <p>These steps will allow you to install the code on your computer that
@@ -367,7 +397,7 @@ computer. Navigate to the directory you would like to be the parent
 directory of the repo, then clone the repo.</p>
 <p>MacOS/Linux:</p>
 <pre class="bash"><code>cd your/path/to/parent/directory</code></pre>
-<pre class="bash"><code>git clone https://github.com/lorae/immmigrant-households immigrant-households</code></pre>
+<pre class="bash"><code>git clone https://github.com/lorae/immigrant-households immigrant-households</code></pre>
 <p>Windows:</p>
 <pre class="cmd"><code>cd your\path\to\parent\directory</code></pre>
 <pre class="cmd"><code>git clone https://github.com/lorae/immigrant-households immigrant-households</code></pre></li>
@@ -387,19 +417,17 @@ computer.</p>
 installed. Run the following in your R console:</p>
 <pre class="r"><code>install.packages(&quot;renv&quot;) # Safe to run, even if you&#39;re not sure if you already have renv</code></pre>
 <pre class="r"><code>library(&quot;renv&quot;)</code></pre>
-<p>Then initialize the project:</p>
-<pre class="r"><code>renv::init()</code></pre>
-<p>At this point, a message will print into the console informing you
-that this project already has a lockfile. Select option
-<code>1: Restore the project from the lockfile</code>.</p></li>
+<p>Then restore the project:</p>
+<pre class="r"><code>renv::restore()</code></pre></li>
 <li><p><strong>Clone the sibling repo, <code>dataduck</code></strong>:
 This project makes use of a bundle of functions that are unit-tested and
 generalized in a package called <code>dataduck</code>. Clone this repo
 in the same parent directory where you cloned
 <code>immigrant-households</code>.</p>
 <p>🛑 Important: Do not clone this <strong>inside</strong> of the
-<code>immigrant-households</code> repo: instead, it should be a sibling,
-and they should be contained in the same folder structure.</p>
+<code>immigrant-households</code> repo: instead, it should be a
+sibling:it should contained in the same folder structure as
+<code>immigrant-households</code>.</p>
 <p>MacOS/Linux:</p>
 <pre class="bash"><code>cd your/path/to/parent/directory</code></pre>
 <pre class="bash"><code>git clone https://github.com/lorae/dataduck dataduck</code></pre>
@@ -408,8 +436,8 @@ and they should be contained in the same folder structure.</p>
 <pre class="cmd"><code>git clone https://github.com/lorae/dataduck dataduck</code></pre></li>
 </ol>
 </div>
-<div id="part-b-download-raw-data-from-ipums-usa" class="section level3">
-<h3>📥️ Part B: Download raw data from IPUMS USA</h3>
+<div id="part-b-configure-api-access" class="section level3">
+<h3>📥️ Part B: Configure API Access</h3>
 <p>The <a href="https://www.ipums.org/about/terms">IPUMS Terms of
 Use</a> precludes us from directly sharing the raw microdata extract,
 however, the data used in this analysis is freely available after
@@ -422,11 +450,11 @@ new file named <code>.Renviron</code> in the project root directory. You
 can do this manually or use the following terminal commands:</p>
 <p>MacOS/Linux:</p>
 <pre class="bash"><code>cp example.Renviron .Renviron</code></pre>
-<p>Windows:</p>
-<pre class="cmd"><code>copy example.Renviron .Renviron</code></pre></li>
+<p>Windows (use PowerShell):</p>
+<pre class="ps1"><code>Copy-Item example.Renviron .Renviron</code></pre></li>
 <li><p><strong>Set up your IPUMS USA API key</strong>: If you don’t
 already have one, set up a free account on <a href="https://uma.pop.umn.edu/usa/user/new">IPUMS USA</a>. Use the new
-account to login to the <a href="https://account.ipums.org/api_keys">IPUMS API Key</a> webpage.
+account to login to the <a href="https://account.ipums.org/api_keys">IPUMS API key</a> webpage.
 Copy your API key from this webpage.</p></li>
 <li><p><strong>Open <code>.Renviron</code></strong>
 (‼️<strong>not</strong> <code>example.Renviron</code>!) and replace
@@ -442,22 +470,20 @@ actual API key in the example file.</p></li>
 </div>
 <div id="part-c-run-the-analysis-scripts" class="section level3">
 <h3>📊 Part C: Run the analysis scripts</h3>
-<p>The code for this project is stored in the <code>src</code> folder.
-Code is divided into two main directories: <code>scripts</code> and
-<code>utils</code>. The <code>scripts</code> directory contains
-executable code which runs the analyses. The <code>utils</code>
-directory contains necessary accessory modules, typically in the form of
-functions, that are sourced when certain scripts run. These functions
-are separated due to their complexity. Code underlying them can be
-inspected more directly when they are isolated, and they are subject to
-a battery of unit tests. More generalized functions used in multiple of
-Lorae’s projects are contained in the <code>dataduck</code> repo you
-cloned alongside this project.</p>
+<p>The code for this project is stored in the <code>src</code>
+folder:</p>
+<ul>
+<li><p><code>scripts/</code>: executable analysis scripts</p></li>
+<li><p><code>utils/</code>: accessory modules (functions), subject to
+unit tests</p></li>
+</ul>
 <ol start="8" style="list-style-type: decimal">
 <li><p>Run all code by sourcing the <code>run_all.R</code> script in
 your R console:</p>
 <pre class="r"><code>source(&quot;run_all.R&quot;)</code></pre></li>
 </ol>
+<hr />
+</div>
 </div>
 </div>
 

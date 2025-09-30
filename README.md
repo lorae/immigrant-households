@@ -1,6 +1,53 @@
 # 👨‍👩‍👧 Immigrant Households
 Replication code and analysis of American immigrant household configurations
 
+---
+
+## ⚡ Quick Start
+For experienced users who just want to get the project running right away. If you
+have trouble following these steps, please follow the **Detailed Start** guide below.
+
+1. Navigate to the directory where you want the repo
+
+    ```bash
+    cd your/path/to/parent/directory
+    ```
+
+2. Clone both required repos side by side
+
+    ```bash
+    git clone https://github.com/lorae/immigrant-households immigrant-households
+    git clone https://github.com/lorae/dataduck dataduck
+    ```
+
+3. Enter the main project
+
+    ```bash
+    cd immigrant-households
+    ```
+
+4. Copy the environment file and edit it with your own [IPUMS API key](https://account.ipums.org/api_keys)
+
+    ```bash
+    cp example.Renviron .Renviron
+    # (Windows PowerShell: Copy-Item example.Renviron .Renviron)
+    # IMPORTANT: open .Renviron and replace "your_ipums_api_key" with your actual key
+    ```
+
+5. Restore dependencies and run the analysis
+
+    Open `immigrant-households.Rproj` in your preferred IDE, then in the R console:
+    
+    ```r
+    renv::restore()
+    source("run_all.R")
+    ```
+    
+---
+
+## 📎 Detailed Start
+Detailed instructions for how to fully install and run this project code on your computer.
+
 ### 📦️ Part A: Clone the repo and configure the R project
 
 These steps will allow you to install the code on your computer that runs this project and set up the environment so that it mimics the environment on which the code was developed.
@@ -13,7 +60,7 @@ These steps will allow you to install the code on your computer that runs this p
     cd your/path/to/parent/directory
     ```
     ```bash
-    git clone https://github.com/lorae/immmigrant-households immigrant-households
+    git clone https://github.com/lorae/immigrant-households immigrant-households
     ```
     
     Windows:
@@ -42,18 +89,18 @@ Open `immigrant-households.Rproj` using your preferred IDE for R. (We use R Stud
     library("renv")
     ```
     
-    Then initialize the project:
+    Then restore the project:
     
     ```r
-    renv::init()
+    renv::restore()
     ```
-    
-    At this point, a message will print into the console informing you that this project already has a lockfile. 
-    Select option `1: Restore the project from the lockfile`. 
-    
-4. **Clone the sibling repo, `dataduck`**: This project makes use of a bundle of functions that are unit-tested and generalized in a package called `dataduck`. Clone this repo in the same parent directory where you cloned `immigrant-households`.
 
-    🛑 Important: Do not clone this **inside** of the `immigrant-households` repo: instead, it should be a sibling, and they should be contained in the same folder structure.
+4. **Clone the sibling repo, `dataduck`**: This project makes use of a bundle of functions that are unit-tested
+and generalized in a package called `dataduck`. Clone this repo in the same parent directory where you cloned 
+`immigrant-households`.
+
+    🛑 Important: Do not clone this **inside** of the `immigrant-households` repo: instead, it should be a 
+    sibling:it should contained in the same folder structure as `immigrant-households`.
 
     MacOS/Linux:
     
@@ -73,7 +120,7 @@ Open `immigrant-households.Rproj` using your preferred IDE for R. (We use R Stud
     git clone https://github.com/lorae/dataduck dataduck
     ```
     
-### 📥️ Part B: Download raw data from IPUMS USA
+### 📥️ Part B: Configure API Access
 
 The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from directly sharing the raw microdata extract, however,
 the data used in this analysis is freely available after setting up an IPUMS USA account, and we provide an automated script that 
@@ -88,15 +135,15 @@ You can do this manually or use the following terminal commands:
     cp example.Renviron .Renviron
     ```
     
-    Windows:
+    Windows (use PowerShell):
     
-    ```cmd
-    copy example.Renviron .Renviron
+    ```ps1
+    Copy-Item example.Renviron .Renviron
     ```
     
 6. **Set up your IPUMS USA API key**: If you don't already have one, set up a free account on 
 [IPUMS USA](https://uma.pop.umn.edu/usa/user/new). Use the new account to login to the 
-[IPUMS API Key](https://account.ipums.org/api_keys) webpage. Copy your API key from this webpage.
+[IPUMS API key](https://account.ipums.org/api_keys) webpage. Copy your API key from this webpage.
 
 7. **Open `.Renviron`** (‼️**not** `example.Renviron`!) and replace `your_ipums_api_key` with your actual key.  Do not include quotation marks. 
 R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate 
@@ -106,8 +153,11 @@ from the codebase.
 
 ### 📊 Part C: Run the analysis scripts
 
-The code for this project is stored in the `src` folder. Code is divided into two main directories: `scripts` and `utils`. The `scripts` directory contains executable code which runs the analyses. The `utils` directory contains necessary accessory modules, typically in the form of functions, that are sourced when certain scripts run. These functions are separated due to their complexity. Code underlying them can be inspected more directly when they are isolated, and they are subject to a battery of unit tests.
-More generalized functions used in multiple of Lorae's projects are contained in the `dataduck` repo you cloned alongside this project.
+The code for this project is stored in the `src` folder:
+
+- `scripts/`: executable analysis scripts
+
+- `utils/`: accessory modules (functions), subject to unit tests
 
 8. Run all code by sourcing the `run_all.R` script in your R console:
 
@@ -115,3 +165,5 @@ More generalized functions used in multiple of Lorae's projects are contained in
     source("run_all.R")
     ```
     
+---
+
