@@ -1,0 +1,30 @@
+# INSTRUCTIONS:
+# Check README.md in the root of this project directory for more context.
+#
+# 1. Rename this file to `.Renviron` (remove the "example." prefix). This is important 
+#    for two reasons:
+#
+#    - If you leave it as `example.Renviron` and add your API key, then commit 
+#        and push, you may expose your secret on the internet. This file is NOT 
+#        ignored by Git.
+#
+#    - R only loads files named `.Renviron` automatically at startup;
+#        any other name will be ignored.
+# 
+#    You can do this in the terminal by typing:
+#    `cp example.Renviron .Renviron` (macOS/Linux)
+#    `copy example.Renviron .Renviron` (Windows)
+#
+# 2. Get your API key:
+#
+#    - IPUMS: If you don't already have one, set up a free account on IPUMS USA
+#      (https://uma.pop.umn.edu/usa/user/new).Use the new account to login to the 
+#      IPUMS API Key webpage (https://account.ipums.org/api_keys).
+#
+# 3. Replace `your_ipums_api_key` below with your actual key. Do NOT use quotation 
+#    marks.
+#
+# Note: `.Renviron` is included in `.gitignore`, so if you follow these instructions,
+# your real keys will not be committed.
+
+IPUMS_API_KEY=your_ipums_api_key

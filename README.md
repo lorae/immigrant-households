@@ -52,3 +52,34 @@ an hour.
     
     At this point, a message will print into the console informing you that this project already has a lockfile. 
     Select option `1: Restore the project from the lockfile`. 
+    
+### 📥️ Part B: Download raw data from IPUMS USA
+
+The [IPUMS Terms of Use](https://www.ipums.org/about/terms) precludes us from directly sharing the raw microdata extract, however,
+the data used in this analysis is freely available and simple to download after setting up an IPUMS USA account. In this step,
+we explain this process and how to "order" a data extract that exactly matches the one used in this study.
+
+4. **Copy the file** `example.Renviron` to a new file named `.Renviron` in the project root directory. 
+You can do this manually or use the following terminal commands:
+
+    MacOS/Linux:
+    
+    ```bash
+    cp example.Renviron .Renviron
+    ```
+    
+    Windows:
+    
+    ```cmd
+    copy example.Renviron .Renviron
+    ```
+    
+5. **Set up your IPUMS USA API key**: If you don't already have one, set up a free account on 
+[IPUMS USA](https://uma.pop.umn.edu/usa/user/new). Use the new account to login to the 
+[IPUMS API Key](https://account.ipums.org/api_keys) webpage. Copy your API key from this webpage.
+
+6. **Open `.Renviron`** and replace `your_ipums_api_key` with your actual key.  Do not include quotation marks. 
+R will automatically load `.Renviron` when you start a new session. This keeps your API key private and separate 
+from the codebase.
+
+    🛑 Important: `.Renviron` is listed in `.gitignore`, so it will not be tracked or uploaded to GitHub — but `example.Renviron` is tracked, so do not put your actual API key in the example file.
