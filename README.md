@@ -1,7 +1,7 @@
 # 👨‍👩‍👧 Immigrant Households
-How has the size and configuration of immigrant households changed since the 1970s? We examine
+How has the size and configuration of U.S. immigrant households changed since the 1970s? We examine
 this question, building upon our previous work on [American headship rate and housing supply](https://github.com/lorae/american-housing-shortfalls) as
-well as the [demographics of household formation](https://github.com/lorae/household-size-demographics). 
+well as the [demographics of American households](https://github.com/lorae/household-size-demographics). 
 
 ## 📊 Key Findings
 Forthcoming.
