@@ -1,7 +1,7 @@
 # 👨‍👩‍👧 Immigrant Households
 Replication code and analysis of American immigrant household configurations
 
----
+
 
 ## ⚡ Quick Start
 For experienced users who just want to get the project running right away. If you
@@ -43,7 +43,7 @@ have trouble following these steps, please follow the **Detailed Start** guide b
     source("run_all.R")
     ```
     
----
+
 
 ## 📎 Detailed Start
 Detailed instructions for how to fully install and run this project code on your computer.
@@ -165,7 +165,7 @@ The code for this project is stored in the `src` folder:
     source("run_all.R")
     ```
     
----
+
 
 ## 📜 License
 MIT License (see LICENSE file).
