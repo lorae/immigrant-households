@@ -174,8 +174,8 @@ The code for this project is stored in the `src` folder:
 MIT License (see LICENSE file).
 
 ## 📚 Citation
-This repository accompanies ongoing research on immigrant household configurations.  
-A full citation will be provided upon publication.  
+This repository accompanies ongoing research on immigrant household configurations. 
 
 For now, please cite as:  
-Stojanovic, Lorae, and Peter Hepburn. 2025. *Immigrant Households: Replication Code and Analysis*. GitHub. https://github.com/lorae/immigrant-households
+*Immigrant Households: Replication Code and Analysis*. Maintained by Lorae Stojanovic and Peter Hepburn.  
+GitHub. https://github.com/lorae/immigrant-households
