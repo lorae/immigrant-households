@@ -1,3 +1,7 @@
+# ignore contents of ipums-microdata, but preserve file structure
+data/ipums-microdata/**
+!data/ipums-microdata/.gitkeep
+
 # History files
 .Rhistory
 .Rapp.history
