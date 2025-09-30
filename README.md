@@ -43,7 +43,7 @@ have trouble following these steps, please follow the **Detailed Start** guide b
     
     ```r
     renv::restore()
-    source("run_all.R")
+    source("run-all.R")
     ```
     
 
@@ -162,10 +162,10 @@ The code for this project is stored in the `src` folder:
 
 - `utils/`: accessory modules (functions), subject to unit tests
 
-8. Run all code by sourcing the `run_all.R` script in your R console:
+8. Run all code by sourcing the `run-all.R` script in your R console:
 
     ```r
-    source("run_all.R")
+    source("run-all.R")
     ```
     
 
