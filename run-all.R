@@ -10,3 +10,6 @@ source("src/scripts/process-ipums.R") # Run time: 2 mins
 
 # Figures
 source("src/figures/fig01-household-size-year-nativity-line.R")
+source("src/figures/fig02-household-size-cohort-line.R")
+source("src/figures/fig03-multifam-year-nativity-line.R")
+source("src/figures/fig04-multifam-year-cohort-line.R")
