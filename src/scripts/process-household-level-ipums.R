@@ -70,7 +70,7 @@ validate_row_counts(
 # Validate NUMPREC matches hh_size
 household_table <- tbl(con, "ipums_household")
 mismatches <- household_table |>
-  filter(NUMPRECT != hh_size) |>
+  filter(NUMPREC != hh_size) |>
   summarise(count = n()) |>
   pull()
 
