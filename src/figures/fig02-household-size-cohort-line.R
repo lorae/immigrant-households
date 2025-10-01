@@ -27,7 +27,7 @@ cohort_levels <- c(
   "1960s", "1970s", "1980s", "1990s", "2000s", "2010s", "2020s"
 )
 
-fig_cohort <- hhsize_year_cohort |>
+fig02 <- hhsize_year_cohort |>
   mutate(
     year = decade,
     immig_cohort = factor(immig_cohort, levels = cohort_levels)
@@ -46,8 +46,13 @@ fig_cohort <- hhsize_year_cohort |>
   ) +
   theme_minimal()
 
-fig_cohort
+fig02
   
 # ----- Step 2: Save figure ----- #
-
-# TODO
+ggsave(
+  filename = "output/figures/fig02-household-size-year-immig_cohort-line.jpeg",
+  plot = fig02,
+  width = 6,      # in inches
+  height = 4,     # in inches
+  dpi = 300       # high resolution
+)
