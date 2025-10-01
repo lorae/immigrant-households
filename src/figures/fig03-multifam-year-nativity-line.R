@@ -36,7 +36,7 @@ fig03 <- multifam_year_bpl |>
     x = "Year",
     y = "Percent in Multifamily Households",
     color = NULL,
-    title = "Percentage of Population in Multifamily Households by Nativity"
+    title = "Percentage of Population in Multifamily Households\nby Nativity"
   ) +
   scale_y_continuous(labels = label_percent(accuracy = 1)) +   # adds % sign
   theme_minimal()
@@ -47,7 +47,7 @@ fig03
 ggsave(
   filename = "output/figures/fig03-multifam-year-nativity-line.jpeg",
   plot = fig03,
-  width = 6,      # in inches
-  height = 4,     # in inches
-  dpi = 300       # high resolution
+  width = 6,
+  height = 5,
+  dpi = 500
 )
