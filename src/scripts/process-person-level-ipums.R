@@ -73,16 +73,16 @@ ipums_final <- ipums_db |>
 # Create a new table to write processed columns to
 compute(
   ipums_final,
-  name = "ipums_processed",
+  name = "ipums_person",
   temporary = FALSE,
   overwrite = TRUE
 )
 
 # Validate no rows were dropped
 validate_row_counts(
-  db = tbl(con, "ipums_processed"),
+  db = tbl(con, "ipums_person"),
   expected_count = obs_count,
-  step_description = "ipums_processed db was created"
+  step_description = "ipums_person db was created"
 )
 
 dbDisconnect(con)

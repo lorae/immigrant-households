@@ -9,7 +9,7 @@ library("ggplot2")
 devtools::load_all("../demographr")
 
 con <- dbConnect(duckdb::duckdb(), "data/db/ipums.duckdb")
-ipums_db <- tbl(con, "ipums_processed")
+ipums_db <- tbl(con, "ipums_person")
 
 # ----- Step 1: Graph ----- #
 
