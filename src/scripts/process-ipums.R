@@ -21,3 +21,28 @@ devtools::load_all("../demographr")
 
 con <- dbConnect(duckdb::duckdb(), "data/db/ipums.duckdb")
 ipums_db <- tbl(con, "ipums")
+
+# For data validation: count number of rows, to ensure none are dropped later
+obs_count <- ipums_db |>
+  summarise(count = n()) |>
+  pull()
+
+
+# Create a new table to write processed columns to
+compute(
+  tbl(con, "ipums"),
+  name = "ipums_processed",
+  temporary = FALSE,
+  overwrite = TRUE
+)
+
+# Validate no rows were dropped
+validate_row_counts(
+  db = tbl(con, "ipums_processed"),
+  expected_count = obs_count,
+  step_description = "ipums_processed db was created"
+)
+
+# Step 2: Close out the connection ----- #
+
+dbDisconnect(con)
