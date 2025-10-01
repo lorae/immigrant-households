@@ -1,7 +1,6 @@
-# process-ipums.R
+# process-person-level-ipums.R
 #
-# This script adds bucket columns to raw data based on specifications outlined in
-# CSV files in the `lookup_tables/` directory.
+# This script adds bucket columns to raw (person-level) data.
 # It reads data from the "ipums" table in `/db/ipums-raw.duckdb` and writes processed
 # data to the "ipums-bucketed" table in `/db/ipums-processed.duckdb`.
 #
