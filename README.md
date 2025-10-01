@@ -20,7 +20,7 @@ have trouble following these steps, please follow the **Detailed Start** guide b
 
     ```bash
     git clone https://github.com/lorae/immigrant-households immigrant-households
-    git clone https://github.com/lorae/dataduck dataduck
+    git clone https://github.com/lorae/demographr demographr
     ```
 
 3. Enter the main project
@@ -98,8 +98,8 @@ Open `immigrant-households.Rproj` using your preferred IDE for R. (We use R Stud
     renv::restore()
     ```
 
-4. **Clone the sibling repo, `dataduck`**: This project makes use of a bundle of functions that are unit-tested
-and generalized in a package called `dataduck`. Clone this repo in the same parent directory where you cloned 
+4. **Clone the sibling repo, `demographr`**: This project makes use of a bundle of functions that are unit-tested
+and generalized in a package called `demographr`. Clone this repo in the same parent directory where you cloned 
 `immigrant-households`.
 
     🛑 Important: Do not clone this **inside** of the `immigrant-households` repo: instead, it should be a 
@@ -111,7 +111,7 @@ and generalized in a package called `dataduck`. Clone this repo in the same pare
     cd your/path/to/parent/directory
     ```
     ```bash
-    git clone https://github.com/lorae/dataduck dataduck
+    git clone https://github.com/lorae/demographr demographr
     ```
     
     Windows:
@@ -120,7 +120,7 @@ and generalized in a package called `dataduck`. Clone this repo in the same pare
     cd your\path\to\parent\directory
     ```
     ```cmd
-    git clone https://github.com/lorae/dataduck dataduck
+    git clone https://github.com/lorae/demographr demographr
     ```
     
 ###  Part B: Configure API Access
