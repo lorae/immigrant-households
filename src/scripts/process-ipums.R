@@ -52,6 +52,20 @@ ipums_final <- ipums_db |>
       YRIMMIG >= 2000 & YRIMMIG < 2010 ~ "2000s",
       YRIMMIG >= 2010 & YRIMMIG < 2020 ~ "2010s",
       YRIMMIG >= 2020 ~ "2020s"
+    ),
+    # Top-code at 5, since 1970 has most restrictive top-code
+    n_multifam = case_when(
+      NFAMS == 0 ~ 0,
+      NFAMS == 1 ~ 1,
+      NFAMS == 2 ~ 2,
+      NFAMS == 3 ~ 3,
+      NFAMS == 4 ~ 4,
+      NFAMS >= 5 ~ 5
+    ),
+    is_multifam = case_when(
+      n_multifam == 0 ~ NA,
+      n_multifam == 1 ~ FALSE,
+      n_multifam >= 2 ~ TRUE
     )
   )
 
