@@ -19,7 +19,15 @@ hhsize_year_cohort <- crosstab_mean(
   wt_col = "PERWT",
   group_by = c("decade", "immig_cohort")
 ) |>
-  filter(!is.na(immig_cohort))
+  filter(!is.na(immig_cohort)) |>
+  arrange(decade, immig_cohort) |>
+  filter(
+    # Remove some imcomplete / misleading cohorts
+    !(decade == 2020 & immig_cohort == "2020s"),
+    !(decade == 2010 & immig_cohort == "2010s"),
+    !(decade == 2000 & immig_cohort == "2000s"),
+    !(count < 30)
+  )
 
 # Ensure cohorts are in chronological order
 cohort_levels <- c(
@@ -38,13 +46,15 @@ fig02 <- hhsize_year_cohort |>
   scale_color_manual(
     values = rainbow(length(cohort_levels), start = 0, end = 0.85)  # red → purple
   ) +
+  scale_x_continuous(breaks = seq(1970, 2020, by = 10)) +
   labs(
     x = "Year",
-    y = "Average Household Size",
+    y = "Persons per Household",
     color = "Decade of Immigration",
-    title = "Household Size Among Immigrants by Decade of Immigration"
+    title = "Household Size Among Immigrants\nby Decade of Immigration"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank())
 
 fig02
   
@@ -52,7 +62,7 @@ fig02
 ggsave(
   filename = "output/figures/fig02-household-size-year-immig_cohort-line.jpeg",
   plot = fig02,
-  width = 6,      # in inches
-  height = 4,     # in inches
-  dpi = 300       # high resolution
+  width = 6,
+  height = 6,
+  dpi = 500 
 )
