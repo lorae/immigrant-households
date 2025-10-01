@@ -37,6 +37,21 @@ ipums_final <- ipums_db |>
       YEAR >= 2008 & YEAR <= 2012 ~ 2010,
       YEAR >= 2018 & YEAR <= 2022 ~ 2020,
       YEAR == 2023 ~ 2023
+    ),
+    immig_cohort = case_when(
+      YRIMMIG == 0 ~ NA_character_,
+      YRIMMIG <= 1919 ~ "1919 or earlier",
+      YRIMMIG >= 1920 & YRIMMIG < 1930 ~ "1920s",
+      YRIMMIG >= 1930 & YRIMMIG < 1940 ~ "1930s",
+      YRIMMIG >= 1940 & YRIMMIG < 1950 ~ "1940s",
+      YRIMMIG >= 1950 & YRIMMIG < 1960 ~ "1950s",
+      YRIMMIG >= 1960 & YRIMMIG < 1970 ~ "1960s",
+      YRIMMIG >= 1970 & YRIMMIG < 1980 ~ "1970s",
+      YRIMMIG >= 1980 & YRIMMIG < 1990 ~ "1980s",
+      YRIMMIG >= 1990 & YRIMMIG < 2000 ~ "1990s",
+      YRIMMIG >= 2000 & YRIMMIG < 2010 ~ "2000s",
+      YRIMMIG >= 2010 & YRIMMIG < 2020 ~ "2010s",
+      YRIMMIG >= 2020 ~ "2020s"
     )
   )
 
