@@ -1,7 +1,5 @@
-# generate-summary-stats.R
+# Produces a line graph of household size by year and nativity
 #
-# Produce basic facts about immigrants in the United States since the 1970s
-
 # ----- Step 0: Configuration ----- #
 library("dplyr")
 library("duckdb")
@@ -13,7 +11,7 @@ devtools::load_all("../demographr")
 con <- dbConnect(duckdb::duckdb(), "data/db/ipums.duckdb")
 ipums_db <- tbl(con, "ipums_processed")
 
-# ----- Step 1: Household size by year and foreign vs us born ----- #
+# ----- Step 1: Graph ----- #
 
 hhsize_year_bpl <- crosstab_mean(
   data = ipums_db |> filter(GQ %in% c(0,1,2)),
@@ -22,7 +20,7 @@ hhsize_year_bpl <- crosstab_mean(
   group_by = c("decade", "us_born")
 ) 
 
-hhsize_year_bpl |>
+fig01 <- hhsize_year_bpl |>
   mutate(
     year = decade,                       # rename decade to year
     us_born = ifelse(us_born, "US-born", "Foreign-born")
@@ -38,3 +36,13 @@ hhsize_year_bpl |>
   ) +
   theme_minimal()
 
+fig01
+
+# ----- Step 2: Save figure ----- #
+ggsave(
+  filename = "output/figures/fig01-household-size-year-nativity-line.jpeg",
+  plot = fig01,
+  width = 6,      # in inches
+  height = 4,     # in inches
+  dpi = 300       # high resolution
+)
