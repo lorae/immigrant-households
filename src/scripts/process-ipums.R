@@ -5,10 +5,6 @@
 # It reads data from the "ipums" table in `/db/ipums-raw.duckdb` and writes processed
 # data to the "ipums-bucketed" table in `/db/ipums-processed.duckdb`.
 #
-# According to the Census Bureau: "A combination of SAMPLE and SERIAL provides a unique 
-# identifier for every household in the IPUMS; the combination of SAMPLE, SERIAL, 
-# and PERNUM uniquely identifies every person in the database."
-#
 # ----- Step 0: Configuration ----- #
 library("dplyr")
 library("duckdb")
@@ -28,9 +24,27 @@ obs_count <- ipums_db |>
   pull()
 
 
+# ----- Step 2: Add columns ----- #
+
+ipums_final <- ipums_db |>
+  mutate(
+    us_born = BPL <= 120,
+    decade = case_when(
+      YEAR == 1970 ~ 1970,
+      YEAR == 1980 ~ 1980,
+      YEAR == 1990 ~ 1990,
+      YEAR == 2000 ~ 2000,
+      YEAR >= 2008 & YEAR <= 2012 ~ 2010,
+      YEAR >= 2018 & YEAR <= 2022 ~ 2020,
+      YEAR == 2023 ~ 2023
+    )
+  )
+
+# ----- Step 3: Compute, save, close out the connection ----- #
+
 # Create a new table to write processed columns to
 compute(
-  tbl(con, "ipums"),
+  ipums_final,
   name = "ipums_processed",
   temporary = FALSE,
   overwrite = TRUE
@@ -42,7 +56,5 @@ validate_row_counts(
   expected_count = obs_count,
   step_description = "ipums_processed db was created"
 )
-
-# Step 2: Close out the connection ----- #
 
 dbDisconnect(con)
