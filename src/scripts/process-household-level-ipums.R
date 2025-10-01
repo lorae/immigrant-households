@@ -13,7 +13,7 @@ devtools::load_all("../demographr")
 
 # ----- Step 1: Connect to the database ----- #
 con <- dbConnect(duckdb::duckdb(), "data/db/ipums.duckdb")
-ipums_processed <- tbl(con, "ipums_person")
+ipums_person <- tbl(con, "ipums_person")
 
 # For data validation: count number of unique households
 household_count <- ipums_person |>
@@ -28,6 +28,9 @@ ipums_household <- ipums_person |>
     # Household size
     hh_size = n(),
     
+    # NUMPREC (should match household size, for verification)
+    NUMPREC = first(NUMPREC),
+    
     # Number of families in household (take max since it's constant within household)
     n_multifam = max(n_multifam, na.rm = TRUE),
     is_multifam = max(is_multifam, na.rm = TRUE),
@@ -38,7 +41,7 @@ ipums_household <- ipums_person |>
     
     # Immigration characteristics
     n_foreign_born = sum(!us_born, na.rm = TRUE),
-    pct_foreign_born = mean(!us_born, na.rm = TRUE),
+    pct_foreign_born = mean(as.numeric(!us_born), na.rm = TRUE),
     all_us_born = all(us_born, na.rm = TRUE),
     any_foreign_born = any(!us_born, na.rm = TRUE),
     
@@ -63,5 +66,23 @@ validate_row_counts(
   expected_count = household_count,
   step_description = "ipums_household db was created"
 )
+
+# Validate NUMPREC matches hh_size
+household_table <- tbl(con, "ipums_household")
+mismatches <- household_table |>
+  filter(NUMPRECT != hh_size) |>
+  summarise(count = n()) |>
+  pull()
+
+if (mismatches > 0) {
+  stop(
+    sprintf(
+      "Data validation failed: %d households have NUMPRECT != hh_size",
+      mismatches
+    )
+  )
+} else {
+  message("✓ Validation passed: NUMPREC matches hh_size for all households")
+}
 
 dbDisconnect(con)
