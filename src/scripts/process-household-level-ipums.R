@@ -31,6 +31,10 @@ ipums_household <- ipums_person |>
     # NUMPREC (should match household size, for verification)
     NUMPREC = first(NUMPREC),
     
+    # Unit characteristics
+    ROOMS = first(ROOMS),
+    BEDROOMS = first(BEDROOMS),
+    
     # Number of families in household (take max since it's constant within household)
     n_multifam = max(n_multifam, na.rm = TRUE),
     is_multifam = max(is_multifam, na.rm = TRUE),
