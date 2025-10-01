@@ -30,7 +30,7 @@ fig01 <- hhsize_year_bpl |>
   geom_point(size = 2) +
   labs(
     x = "Year",
-    y = "Average Household Size",
+    y = "Persons per Household",
     color = NULL,
     title = "Household Size by Nativity"
   ) +
@@ -42,7 +42,7 @@ fig01
 ggsave(
   filename = "output/figures/fig01-household-size-year-nativity-line.jpeg",
   plot = fig01,
-  width = 6,      # in inches
-  height = 4,     # in inches
-  dpi = 300       # high resolution
+  width = 6,
+  height = 6,
+  dpi = 500
 )
