@@ -65,6 +65,21 @@ ipums_final <- ipums_db |>
       n_multifam == 0 ~ NA,
       n_multifam == 1 ~ FALSE,
       n_multifam >= 2 ~ TRUE
+    ),
+    # Top-code at 9, which is the top-code for 2000 and earlier (most restrictive)
+    room = case_when(
+      ROOMS < 9 ~ ROOMS,
+      ROOMS >= 9 ~ 9
+    ),
+    # Recode integers and top-code at 56, which is the top-code for 2000 and earlier (most restrictive)
+    bedroom = case_when(
+      BEDROOMS == 0 ~ NA_integer_,
+      BEDROOMS == 1 ~ 0, # efficiencies / studios
+      BEDROOMS == 2 ~ 1,
+      BEDROOMS == 3 ~ 2,
+      BEDROOMS == 4 ~ 3,
+      BEDROOMS == 5 ~ 4,
+      BEDROOMS >= 6 ~ 5
     )
   )
 
