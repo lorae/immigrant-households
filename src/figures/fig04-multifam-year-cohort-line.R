@@ -53,7 +53,7 @@ fig04 <- multifam_year_cohort |>
     x = "Year",
     y = "Percent of Households that are Multifamily",
     color = "Decade of Immigration",
-    title = "Multifamily Households Among Immigrants\nby Decade of Immigration",
+    title = "Percentage of Immigrants Living in Multifamily\nHouseholds by Decade of Immigration",
     caption = "All plotted points have at least 30 observations underlying their estimate"
   ) +
   theme_minimal() +

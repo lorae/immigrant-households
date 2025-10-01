@@ -36,7 +36,7 @@ fig03 <- multifam_year_bpl |>
     x = "Year",
     y = "Percent in Multifamily Households",
     color = NULL,
-    title = "Percentage of Population in Multifamily Households\nby Nativity"
+    title = "Percentage of Population Living in Multifamily\nHouseholds by Nativity"
   ) +
   scale_y_continuous(labels = label_percent(accuracy = 1)) +   # adds % sign
   theme_minimal()
