@@ -74,12 +74,21 @@ ipums_person <- ipums_db |>
     # Recode integers and top-code at 56, which is the top-code for 2000 and earlier (most restrictive)
     bedroom = case_when(
       BEDROOMS == 0 ~ NA_integer_,
-      BEDROOMS == 1 ~ 0, # efficiencies / studios
+      BEDROOMS == 1 ~ 1, # efficiencies / studios: we classify as 1 bedroom
       BEDROOMS == 2 ~ 1,
       BEDROOMS == 3 ~ 2,
       BEDROOMS == 4 ~ 3,
       BEDROOMS == 5 ~ 4,
       BEDROOMS >= 6 ~ 5
+    ),
+    # Persons per bedroom
+    ppbr = NUMPREC / bedroom,
+    # Group people into age buckets
+    age_bucket = case_when(
+      AGE < 18 ~ "17 or younger",
+      AGE >= 18 & AGE < 30 ~ "18-29",
+      AGE >= 30 & AGE < 50 ~ "30-49",
+      AGE >= 50 ~ "50 and older"
     )
   )
 
