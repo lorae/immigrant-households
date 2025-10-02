@@ -19,7 +19,8 @@ hhsize_year_bpl <- crosstab_mean(
   value = "NUMPREC",
   wt_col = "PERWT",
   group_by = c("decade", "us_born")
-) 
+) |>
+  arrange(us_born, decade)
 
 fig01 <- hhsize_year_bpl |>
   mutate(
