@@ -67,7 +67,8 @@ ggsave(
   filename = "output/figures/fig01-notitle-household-size-year-nativity-line.jpeg",
   plot = fig01_notitle,
   width = 6,
-  height = 4,
-  dpi = 500
+  height = 3.5,
+  dpi = 600,
+  scale = 1.5
 )
 
