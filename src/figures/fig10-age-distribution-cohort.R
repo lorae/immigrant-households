@@ -1,4 +1,6 @@
 # Produces a line graph of age distribution by immigration cohort
+# TODO: 2020s is likely misleading because of missing data from remainder of decade. 
+# We will have to consider ways to avoid representing this data or make other decades comparable.
 #
 # ----- Step 0: Configuration ----- #
 library("dplyr")
@@ -42,20 +44,27 @@ age_colors <- c(
 
 fig10 <- age_dist_cohort |>
   mutate(
-    year = decade,
     age_bucket = factor(age_bucket, levels = rev(age_levels))
   ) |>
-  ggplot(aes(x = year, y = percent/100, fill = age_bucket)) +
+  ggplot(aes(x = immig_cohort, y = percent/100, fill = age_bucket, group = age_bucket)) +
   geom_area(color = "white", size = 0.2, alpha = 0.9) +
   scale_fill_manual(values = age_colors) +
   scale_y_continuous(labels = label_percent()) +
   labs(
-    x = "Year",
+    x = "Immigrant Cohort",
     y = "Share of Cohort (percent)",
     fill = "Age group",
-    title = "Age Distribution of Immigrant Cohorts Over Time"
+    title = "Age Distribution of Immigrant Cohorts Upon Arrival",
+    caption = "Note: The age distribution of each cohort is measured the first year of the decade following arrival. For\nexample, the age distribution of the cohort of immigrants who arrived in the 1990s is measured in 2000."
   ) +
-  theme_minimal()
+  theme_minimal() +
+  theme(
+    plot.caption = element_text(
+      hjust = 0,        # left-align
+      size = 9,         # slightly smaller text
+      lineheight = 1.1  # tighten vertical spacing
+    )
+  )
 
 fig10
 
