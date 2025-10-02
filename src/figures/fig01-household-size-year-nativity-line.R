@@ -5,6 +5,7 @@ library("dplyr")
 library("duckdb")
 library("dbplyr")
 library("ggplot2")
+library("readr")
 
 devtools::load_all("../demographr")
 
@@ -38,7 +39,13 @@ fig01 <- hhsize_year_bpl |>
 
 fig01
 
-# ----- Step 2: Save figure ----- #
+# ----- Step 2: Save figure & data ----- #
+
+write_csv(
+  hhsize_year_bpl,
+  "output/figures/fig01-household-size-year-nativity-line.csv"
+)
+
 ggsave(
   filename = "output/figures/fig01-household-size-year-nativity-line.jpeg",
   plot = fig01,
