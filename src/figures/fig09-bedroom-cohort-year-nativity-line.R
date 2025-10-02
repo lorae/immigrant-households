@@ -59,8 +59,15 @@ fig09 <- bedroom_year_cohort |>
 fig09
 
 # ----- Step 2: Save figure ----- #
+
+write_csv(
+  bedroom_year_cohort,
+  "output/figures/fig09-bedroom-year-cohort-line.csv"
+)
+
+
 ggsave(
-  filename = "output/figures/fig09-household-size-year-immig_cohort-line.jpeg",
+  filename = "output/figures/fig09-bedroom-year-cohort-line.jpeg",
   plot = fig09,
   width = 6,
   height = 6,
