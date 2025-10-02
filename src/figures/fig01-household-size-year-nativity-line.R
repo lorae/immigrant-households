@@ -31,7 +31,7 @@ fig01 <- hhsize_year_bpl |>
   geom_line(linewidth = 1) +
   geom_point(size = 2) +
   labs(
-    x = "Year",
+    x = NULL,
     y = "Persons per Household",
     color = NULL,
     title = "Household Size by Nativity"
