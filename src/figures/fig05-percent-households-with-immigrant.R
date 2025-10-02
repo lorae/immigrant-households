@@ -5,8 +5,8 @@
 # ----- Step 0: Configuration ----- #
 library("dplyr")
 library("duckdb")
-library("ipumsr")
 library("dbplyr")
+library("ggplot2")
 devtools::load_all("../demographr")
 
 # ----- Step 1: Connect to the database ----- #
@@ -22,3 +22,31 @@ foreign_born_in_household <- crosstab_percent(
   arrange(decade) |>
   filter(any_foreign_born)
   
+fig05 <- foreign_born_in_household |>
+  filter(any_foreign_born) |> 
+  mutate(year = decade) |>
+  ggplot(aes(x = year, y = percent/100)) +
+  geom_line(color = "firebrick", linewidth = 1.2) +
+  geom_point(color = "firebrick", size = 2) +
+  scale_y_continuous(labels = label_percent(accuracy = 1)) +
+  scale_x_continuous(
+    breaks = c(1970, 1980, 1990, 2000, 2010, 2020),
+    labels = c("1970", "1980", "1990", "2000", "2010", "2020")
+  ) +
+  labs(
+    x = "Year",
+    y = "Percent of Households",
+    title = "Percentage of Households with at\nLeast One Foreign-born Member"
+  ) +
+  theme_minimal()
+
+fig05
+
+# Save figure
+ggsave(
+  filename = "output/figures/fig05-percent-foreign-born-households.jpeg",
+  plot = fig05,
+  width = 6,
+  height = 6,
+  dpi = 500
+)
