@@ -51,7 +51,7 @@ fig04 <- multifam_year_cohort |>
   scale_x_continuous(breaks = seq(1970, 2020, by = 10)) +
   labs(
     x = "Year",
-    y = "Percent of Households that are Multifamily",
+    y = "Percent of Immigrants Living in Multifamily Households",
     color = "Decade of Immigration",
     title = "Percentage of Immigrants Living in Multifamily\nHouseholds by Decade of Immigration",
     caption = "All plotted points have at least 30 observations underlying their estimate"
