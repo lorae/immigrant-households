@@ -24,7 +24,7 @@ hhsize_year_bpl <- crosstab_mean(
 
 fig01 <- hhsize_year_bpl |>
   mutate(
-    year = decade,                       # rename decade to year
+    year = decade,
     us_born = ifelse(us_born, "US-born", "Foreign-born")
   ) |>
   ggplot(aes(x = year, y = weighted_mean, color = us_born)) +
@@ -36,7 +36,12 @@ fig01 <- hhsize_year_bpl |>
     color = NULL,
     title = "Household Size by Nativity"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.box = "horizontal" 
+  )
 
 fig01
 
@@ -54,3 +59,15 @@ ggsave(
   height = 6,
   dpi = 500
 )
+
+# Version without a title
+fig01_notitle <- fig01 + labs(title = NULL)
+
+ggsave(
+  filename = "output/figures/fig01-notitle-household-size-year-nativity-line.jpeg",
+  plot = fig01_notitle,
+  width = 6,
+  height = 4,
+  dpi = 500
+)
+
