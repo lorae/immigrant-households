@@ -38,6 +38,8 @@ ipums_household <- ipums_person |>
     # Number of families in household (take max since it's constant within household)
     n_multifam = max(n_multifam, na.rm = TRUE),
     is_multifam = max(is_multifam, na.rm = TRUE),
+    GQ = first(GQ),
+    HHWT = first(HHWT),
     
     # Household composition
     n_adults = sum(AGE >= 18, na.rm = TRUE),
