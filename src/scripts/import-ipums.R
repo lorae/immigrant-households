@@ -56,11 +56,12 @@ ipums_extract <- define_extract_micro(
     "YEAR", "SAMPLE", "SERIAL", "CBSERIAL", "HHWT",
     "CLUSTER", "STRATA", "GQ", "STATEFIP", "NUMPREC",
     "NFAMS", "NSUBFAM", "MULTGEN", #"VERSIONHIST", "HISTID" # Probably not needed, add back in if needed
-    "OWNERSHP", "ROOMS", "BEDROOMS",
+    "OWNERSHP", "ROOMS", "BEDROOMS", "KITCHEN", "BUILTYR", "BUILTYR2", "SHOWER",
+    "HOTWATER", "LINGISOL",
     # Person-level
     "PERNUM", "PERWT", "RELATE", "SEX", "AGE", "RACE", "HISPAN", 
     "YRIMMIG", "YRSUSA2", "MIGRATE5", "MIGRATE1", "MIGPLAC5", 
-    "MIGPLAC1", "MOVEDIN", "BPL", "BPLD", "CITIZEN", "EDUC"
+    "MIGPLAC1", "MOVEDIN", "BPL", "BPLD", "CITIZEN", "EDUC", "NCHILD"
     # "REPWTP", "UNITSSTR", # Probably not needed, add back in if needed
   )
 )
