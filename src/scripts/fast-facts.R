@@ -47,4 +47,7 @@ in_gq_decade <- crosstab_percent(
     .groups = "drop"
   ) |>
   arrange(decade, in_gq) |>
-  filter(in_gq)
+  filter(in_gq)a
+
+min(in_gq_decade$percent)
+max(in_gq_decade$percent)
