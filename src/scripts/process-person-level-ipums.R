@@ -89,6 +89,31 @@ ipums_person <- ipums_db |>
       AGE >= 18 & AGE < 30 ~ "18-29",
       AGE >= 30 & AGE < 50 ~ "30-49",
       AGE >= 50 ~ "50 and older"
+    ),
+    is_hispan = case_when(
+      HISPAN == 9 ~ NA,
+      HISPAN == 0 ~ FALSE,
+      HISPAN == 1 ~ TRUE,
+      HISPAN == 2 ~ TRUE,
+      HISPAN == 3 ~ TRUE,
+      HISPAN == 4 ~ TRUE
+    ),
+    race_bucket = case_when(
+      RACE == 1 ~ "white",
+      RACE == 2 ~ "black",
+      RACE == 3 ~ "aian",
+      RACE %in% c(4, 5, 6) ~ "aapi",
+      RACE %in% c(8, 9) ~ "multi",
+      RACE == 7 ~ "other"
+    ),
+    race_eth = case_when(
+      is_hispan ~ "Hispanic", # All Hispanics labelled as "Hispanic" regardless of race
+      race_bucket == "black" ~ "Black",
+      race_bucket == "aapi" ~ "AAPI",
+      race_bucket == "aian" ~ "AIAN",
+      race_bucket == "multi" ~ "Multiracial",
+      race_bucket == "white" ~ "White",
+      race_bucket == "other" ~ "Other"
     )
   )
 
