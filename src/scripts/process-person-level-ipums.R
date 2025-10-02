@@ -25,7 +25,7 @@ obs_count <- ipums_db |>
 
 # ----- Step 2: Add columns ----- #
 
-ipums_final <- ipums_db |>
+ipums_person <- ipums_db |>
   mutate(
     us_born = BPL <= 120,
     decade = case_when(
@@ -83,11 +83,12 @@ ipums_final <- ipums_db |>
     )
   )
 
+
 # ----- Step 3: Compute, save, close out the connection ----- #
 
 # Create a new table to write processed columns to
 compute(
-  ipums_final,
+  ipums_person,
   name = "ipums_person",
   temporary = FALSE,
   overwrite = TRUE

@@ -1,7 +1,5 @@
-# Produces a line graph of the percentage of American households with at least one immigrant
-# And, within those households, the percentage of occupants that are immigrants
-# (do this by cohort to see if there is increased integration over time)
-#
+# Produces a line graph of the percentage of American immigrant households with only immigrants
+
 # ----- Step 0: Configuration ----- #
 library("dplyr")
 library("duckdb")
@@ -10,21 +8,21 @@ library("ggplot2")
 devtools::load_all("../demographr")
 
 con <- dbConnect(duckdb::duckdb(), "data/db/ipums.duckdb")
-ipums_household <- tbl(con, "ipums_household")
+ipums_person <- tbl(con, "ipums_person")
 
 # ----- Step 1: Graph ----- #
 
-foreign_born_in_household <- crosstab_percent(
-  data = ipums_household |> filter(GQ %in% c(0,1,2)),
+all_foreign_born_cohort <- crosstab_percent(
+  data = ipums_person |> filter(GQ %in% c(0,1,2)),
   wt_col = "HHWT",
-  group_by = c("decade", "any_foreign_born"),
-  percent_group_by = c("decade")
+  group_by = c("decade", "immig_cohort", "any_foreign_born", "all_foreign_born"),
+  percent_group_by = c("decade", "immig_cohort", "any_foreign_born")
 ) |> 
   arrange(decade) |>
-  filter(any_foreign_born)
-  
-fig05 <- foreign_born_in_household |>
-  filter(any_foreign_born) |> 
+  filter(any_foreign_born) |>
+  filter(all_foreign_born)
+
+fig06 <- all_foreign_born |>
   mutate(year = decade) |>
   ggplot(aes(x = year, y = percent/100)) +
   geom_line(color = "firebrick", linewidth = 1.2) +
@@ -36,18 +34,18 @@ fig05 <- foreign_born_in_household |>
   ) +
   labs(
     x = "Year",
-    y = "Percent of Households",
-    title = "Percentage of Households with at\nLeast One Foreign-born Member"
+    y = "Percent of Immigrant Households",
+    title = "Percentage of Immigrant Households with at\nOnly Immigrant Members"
   ) +
   theme_minimal()
 
-fig05
+fig06
 
 # ----- Step 2: Save figure ----- #
 
 ggsave(
-  filename = "output/figures/fig05-percent-foreign-born-households.jpeg",
-  plot = fig05,
+  filename = "output/figures/fig06-percent-foreign-born-households-only-foreign-born.jpeg",
+  plot = fig06,
   width = 6,
   height = 6,
   dpi = 500

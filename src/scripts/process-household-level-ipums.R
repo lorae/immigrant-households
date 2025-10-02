@@ -50,6 +50,7 @@ ipums_household <- ipums_person |>
     pct_foreign_born = mean(as.numeric(!us_born), na.rm = TRUE),
     all_us_born = all(us_born, na.rm = TRUE),
     any_foreign_born = any(!us_born, na.rm = TRUE),
+    all_foreign_born = all(!us_born, na.rm = TRUE),
     
     # Decade (should be constant within household)
     decade = first(decade),
