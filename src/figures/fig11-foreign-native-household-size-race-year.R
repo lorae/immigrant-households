@@ -82,7 +82,7 @@ ggsave(
   filename = "output/figures/fig11-notitle-household-size-race-nat-year-line.jpeg",
   plot = fig11_notitle,
   width = 6,
-  height = 6,
+  height = 4,
   dpi = 600,
   scale = 1.5
 )
