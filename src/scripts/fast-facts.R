@@ -89,3 +89,58 @@ race_nat |>
 # white household size declined by __%, whereas foreign-born Black household sizes 
 # fell by __% and native-born white household sizes fell by __%.
 hhsize_race_nat <- read_csv("output/figures/fig11-household-size-race-nat-year-line.csv")
+
+black_usborn_1970 <- hhsize_race_nat |> 
+  filter(decade == 1970 & us_born == TRUE & race_eth == "Black") |> 
+  pull(weighted_mean)
+
+black_usborn_2020 <- hhsize_race_nat |> 
+  filter(decade == 2020 & us_born == TRUE & race_eth == "Black") |> 
+  pull(weighted_mean)
+
+black_usborn_1970
+black_usborn_2020
+
+(black_usborn_1970 - black_usborn_2020) / black_usborn_1970
+
+white_usborn_1970 <- hhsize_race_nat |> 
+  filter(decade == 1970 & us_born == TRUE & race_eth == "White") |> 
+  pull(weighted_mean)
+
+white_usborn_2020 <- hhsize_race_nat |> 
+  filter(decade == 2020 & us_born == TRUE & race_eth == "White") |> 
+  pull(weighted_mean)
+
+white_usborn_1970
+white_usborn_2020
+
+(white_usborn_1970 - white_usborn_2020) / white_usborn_1970
+
+# Immigrant populations in both groups show linear and modest declines in household 
+# size: in this period, foreign-born Black household sizes fell by __% and native-born 
+# white household sizes fell by __%.
+black_immig_1970 <- hhsize_race_nat |> 
+  filter(decade == 1970 & us_born == FALSE & race_eth == "Black") |> 
+  pull(weighted_mean)
+
+black_immig_2020 <- hhsize_race_nat |> 
+  filter(decade == 2020 & us_born == FALSE & race_eth == "Black") |> 
+  pull(weighted_mean)
+
+black_immig_1970
+black_immig_2020
+
+(black_immig_1970 - black_immig_2020) / black_immig_1970
+
+white_immig_1970 <- hhsize_race_nat |> 
+  filter(decade == 1970 & us_born == FALSE & race_eth == "White") |> 
+  pull(weighted_mean)
+
+white_immig_2020 <- hhsize_race_nat |> 
+  filter(decade == 2020 & us_born == FALSE & race_eth == "White") |> 
+  pull(weighted_mean)
+
+white_immig_1970
+white_immig_2020
+
+(white_immig_1970 - white_immig_2020) / white_immig_1970
