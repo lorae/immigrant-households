@@ -9,14 +9,14 @@ library("ggplot2")
 devtools::load_all("../demographr")
 
 con <- dbConnect(duckdb::duckdb(), "data/db/ipums.duckdb")
-ipums_db <- tbl(con, "ipums_person")
+ipums_person <- tbl(con, "ipums_person")
 
 # ------ Step 1: Facts ----- #
 
 # "In 1970, the average person lived in a household that included x people 
 # (including themselves). By 2020, this had fallen to x people, a decline of x%.
 hhsize_decade <- crosstab_mean(
-  data = ipums_db |> filter(GQ %in% c(0,1,2)),
+  data = ipums_person |> filter(GQ %in% c(0,1,2)),
   value = "NUMPREC",
   wt_col = "PERWT",
   group_by = c("decade")
@@ -32,7 +32,7 @@ hhsize2020 <- hhsize_decade |> filter(decade == 2020) |> pull(weighted_mean)
 # We exclude individuals living in institutional settings, such as prisons and 
 # nursing homes, removing between ____% and ____% of the population across years. 
 in_gq_decade <- crosstab_percent(
-  data = ipums_db,
+  data = ipums_person,
   wt_col = "PERWT",
   group_by = c("decade", "GQ"),
   percent_group_by = c("decade")
@@ -47,7 +47,18 @@ in_gq_decade <- crosstab_percent(
     .groups = "drop"
   ) |>
   arrange(decade, in_gq) |>
-  filter(in_gq)a
+  filter(in_gq)
 
 min(in_gq_decade$percent)
 max(in_gq_decade$percent)
+
+# In Figure 2, we plot household size over the last half century among native and 
+# foreign-born populations of Black, Hispanic, and white Americans (who, in 2020, 
+# collectively accounted for _% of the native-born population and _% of the 
+# foreign-born population).
+race_nat <- crosstab_percent(
+  data = ipums_person |> filter(GQ %in% c(0,1,2) & decade == 2020),
+  wt_col = "PERWT",
+  group_by = c("race_eth", "us_born"),
+  percent_group_by = c("us_born")
+)
