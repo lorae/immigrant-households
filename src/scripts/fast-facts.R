@@ -62,3 +62,30 @@ race_nat <- crosstab_percent(
   group_by = c("race_eth", "us_born"),
   percent_group_by = c("us_born")
 )
+
+race_nat
+
+race_nat |> 
+  filter(us_born) |> 
+  filter(
+    race_eth == "Hispanic" |
+    race_eth == "Black" |
+    race_eth == "White"
+  ) |>
+  pull(percent) |>
+  sum()
+
+race_nat |> 
+  filter(!us_born) |> 
+  filter(
+    race_eth == "Hispanic" |
+      race_eth == "Black" |
+      race_eth == "White"
+  ) |>
+  pull(percent) |>
+  sum()
+
+# Between 1970 and 2020, native-born Black household size fell by __% and native-born 
+# white household size declined by __%, whereas foreign-born Black household sizes 
+# fell by __% and native-born white household sizes fell by __%.
+hhsize_race_nat <- read_csv("output/figures/fig11-household-size-race-nat-year-line.csv")
