@@ -46,11 +46,11 @@ ipums_household <- ipums_person |>
     n_children = sum(AGE < 18, na.rm = TRUE),
     
     # Immigration characteristics
-    n_foreign_born = sum(!us_born, na.rm = TRUE),
+    n_foreign_born = sum(as.integer(!us_born), na.rm = TRUE),
     pct_foreign_born = mean(as.numeric(!us_born), na.rm = TRUE),
-    all_us_born = all(us_born, na.rm = TRUE),
-    any_foreign_born = any(!us_born, na.rm = TRUE),
-    all_foreign_born = all(!us_born, na.rm = TRUE),
+    all_us_born = sum(as.integer(!us_born), na.rm = TRUE) == 0L,
+    any_foreign_born = sum(as.integer(!us_born), na.rm = TRUE) > 0L,
+    all_foreign_born = sum(as.integer(us_born), na.rm = TRUE) == 0L,
     
     # Decade (should be constant within household)
     decade = first(decade),

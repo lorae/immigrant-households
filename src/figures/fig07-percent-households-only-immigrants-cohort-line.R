@@ -9,11 +9,16 @@ devtools::load_all("../demographr")
 
 con <- dbConnect(duckdb::duckdb(), "data/db/ipums.duckdb")
 ipums_person <- tbl(con, "ipums_person")
+ipums_household <- tbl(con, "ipums_household") |>
+  select(SERIAL, YEAR, any_foreign_born, all_foreign_born)
+
+ipums_joined <- ipums_person |>
+  inner_join(ipums_household, by = c("SERIAL", "YEAR"))
 
 # ----- Step 1: Graph ----- #
 
 all_foreign_born_cohort <- crosstab_percent(
-  data = ipums_person |> filter(GQ %in% c(0,1,2)),
+  data = ipums_joined |> filter(GQ %in% c(0,1,2)),
   wt_col = "HHWT",
   group_by = c("decade", "immig_cohort", "any_foreign_born", "all_foreign_born"),
   percent_group_by = c("decade", "immig_cohort", "any_foreign_born")
