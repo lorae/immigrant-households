@@ -26,7 +26,6 @@ if (api_key == "" || api_key == "your_ipums_api_key") {
   stop(".Renviron file exists, but IPUMS API key has not been added. Please refer to Part B of the README file for configuration instructions.")
 }
 
-print(paste0("IPUMS API key: ", api_key))
 set_ipums_api_key(api_key)
 
 # Set the destination directories for the IPUMS data pull
