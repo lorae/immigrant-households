@@ -1,0 +1,121 @@
+immig_cohort,rank,country,pop
+1919 or earlier,1,Italy,526771
+1919 or earlier,2,Canada,358472
+1919 or earlier,3,Other USSR/Russia,303817
+1919 or earlier,4,Poland,281127
+1919 or earlier,5,Germany,205798
+1919 or earlier,6,"Abroad, ns",197700
+1919 or earlier,7,Mexico,185392
+1919 or earlier,8,England,169861
+1919 or earlier,9,Austria,139391
+1919 or earlier,10,Czechoslovakia,86934
+1920s,1,Canada,189171
+1920s,2,Germany,166021
+1920s,3,Italy,116504
+1920s,4,Ireland,68666
+1920s,5,Mexico,59335
+1920s,6,Scotland,49137
+1920s,7,Poland,45789
+1920s,8,England,45033
+1920s,9,Other USSR/Russia,26380
+1920s,10,Philippines,25666
+1930s,1,Germany,109122
+1930s,2,Canada,108040
+1930s,3,Italy,71726
+1930s,4,Mexico,49343
+1930s,5,Austria,30650
+1930s,6,Poland,26617
+1930s,7,China,25485
+1930s,8,Puerto Rico,22615
+1930s,9,England,16384
+1930s,10,Czechoslovakia,15309
+1940s,1,Canada,845800
+1940s,2,Italy,745645
+1940s,3,Mexico,556140
+1940s,4,Poland,425622
+1940s,5,England,409385
+1940s,6,Germany,364304
+1940s,7,West Germany,305225
+1940s,8,Puerto Rico,293784
+1940s,9,"Abroad, ns",285401
+1940s,10,Ireland,199468
+1950s,1,Germany,1357206
+1950s,2,Mexico,1180364
+1950s,3,Canada,860980
+1950s,4,Puerto Rico,829355
+1950s,5,Italy,767173
+1950s,6,England,489381
+1950s,7,Japan,365450
+1950s,8,West Germany,325251
+1950s,9,Poland,306679
+1950s,10,Cuba,302030
+1960s,1,Mexico,2859836
+1960s,2,Cuba,1936501
+1960s,3,Germany,1335004
+1960s,4,Canada,1054882
+1960s,5,Puerto Rico,958714
+1960s,6,Italy,828395
+1960s,7,Philippines,739441
+1960s,8,England,633890
+1960s,9,Japan,478673
+1960s,10,China,455069
+1970s,1,Mexico,7301635
+1970s,2,Philippines,1733404
+1970s,3,Vietnam,1227046
+1970s,4,Korea,1130968
+1970s,5,Puerto Rico,912708
+1970s,6,India,883207
+1970s,7,Germany,694464
+1970s,8,Cuba,690140
+1970s,9,Jamaica,629218
+1970s,10,China,625870
+1980s,1,Mexico,10499601
+1980s,2,Philippines,2137922
+1980s,3,El Salvador,1608078
+1980s,4,Vietnam,1543137
+1980s,5,Puerto Rico,1339655
+1980s,6,Korea,1322936
+1980s,7,China,1302784
+1980s,8,India,1236897
+1980s,9,Dominican Republic,926075
+1980s,10,Jamaica,843970
+1990s,1,Mexico,13478870
+1990s,2,India,1897200
+1990s,3,China,1752117
+1990s,4,Philippines,1751491
+1990s,5,Vietnam,1553179
+1990s,6,El Salvador,1227654
+1990s,7,Puerto Rico,1112981
+1990s,8,Dominican Republic,1040529
+1990s,9,Korea,908775
+1990s,10,Guatemala,788998
+2000s,1,Mexico,9988936
+2000s,2,India,2172455
+2000s,3,China,1672946
+2000s,4,Philippines,1515383
+2000s,5,El Salvador,1160721
+2000s,6,Guatemala,1053843
+2000s,7,Puerto Rico,926904
+2000s,8,Cuba,852936
+2000s,9,Dominican Republic,797340
+2000s,10,Korea,751468
+2010s,1,Mexico,3260241
+2010s,2,India,2188705
+2010s,3,China,1588019
+2010s,4,Puerto Rico,1020762
+2010s,5,Philippines,950966
+2010s,6,Dominican Republic,854311
+2010s,7,Cuba,810042
+2010s,8,Guatemala,760939
+2010s,9,El Salvador,727546
+2010s,10,Honduras,653428
+2020s,1,Mexico,979138
+2020s,2,India,542960
+2020s,3,Venezuela,286251
+2020s,4,Cuba,274212
+2020s,5,Colombia,261432
+2020s,6,China,251623
+2020s,7,Guatemala,250153
+2020s,8,Honduras,246707
+2020s,9,Brazil,208295
+2020s,10,Puerto Rico,164634

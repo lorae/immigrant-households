@@ -24,6 +24,10 @@ source("src/figures/fig11-foreign-native-household-size-race-year.R")
 source("src/figures/fig12-nchild-year-nativity-line.R")
 source("src/figures/fig13-nchild-year-nativity-race-line.R")
 source("src/figures/fig14-multifam-year-nativity-race-line.R")
+source("src/figures/fig15-household-size-age-cohort-line.R")
+source("src/figures/fig16-top-countries-by-cohort-table.R")
+source("src/figures/fig17-household-size-age-cohort-country-line.R")
+source("src/figures/fig18-household-size-age-birth-cohort-native-line.R")
 
 # Fast facts
 source("src/scripts/fast-facts.R")

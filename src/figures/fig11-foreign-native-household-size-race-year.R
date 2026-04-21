@@ -7,6 +7,7 @@ library("duckdb")
 library("dbplyr")
 library("ggplot2")
 library("scales")
+library("readr")
 
 devtools::load_all("../demographr")
 
@@ -22,7 +23,7 @@ race_nat_hhsize <- crosstab_mean(
   group_by = c("decade", "race_eth", "us_born")
 ) |>
   arrange(race_eth, us_born, decade) |>
-  filter(!(race_eth %in% c("Multiracial", "Other", "AAPI", "AIAN")))
+  filter(!(race_eth %in% c("Multiracial", "Other", "AIAN")))
 
 fig11 <- race_nat_hhsize |>
   mutate(
@@ -38,7 +39,8 @@ fig11 <- race_nat_hhsize |>
     values = c(
       "Hispanic" = "#1f78b4",
       "Black"    = "#33a02c",
-      "White"    = "coral"
+      "White"    = "coral",
+      "AAPI"     = "#6a3d9a"
     )
   ) +
   scale_linetype_manual(
