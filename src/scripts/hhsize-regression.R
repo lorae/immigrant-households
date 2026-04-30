@@ -1,4 +1,7 @@
-# Regression analysis of household size
+# Regression analysis of household size (2022 cross-section)
+#
+# Builds models by adding one variable at a time. Poisson with log link via
+# fixest::fepois; SEs clustered at the household level.
 #
 # Outputs:
 # - output/tables/hhsize-regression.html
@@ -19,7 +22,7 @@ ipums_person <- tbl(con, "ipums_person")
 
 reg_data <- ipums_person |>
   filter(GQ %in% c(0, 1, 2) & YEAR == 2022) |>
-  dplyr::select(NUMPREC, us_born, AGE, PERWT, STATEFIP, race_eth, YRIMMIG) |>
+  dplyr::select(NUMPREC, us_born, AGE, PERWT, STATEFIP, race_eth, YRIMMIG, SERIAL) |>
   collect() |>
   mutate(
     foreign_born = as.integer(!us_born),
@@ -37,63 +40,60 @@ reg_data <- ipums_person |>
 dbDisconnect(con)
 
 # ----- Step 2: Models ----- #
-# Poisson fits via fixest::fepois for speed. State FE absorbed via | STATEFIP.
-# Switch to MASS::glm.nb for the final run if negative binomial is needed.
+# Poisson regressions via fixest::fepois. Variables added one at a time.
+# Household-clustered SEs (cluster = ~SERIAL; SERIAL is unique within 2022).
 
-# Model 1: foreign-born + age
+# Model 1: foreign-born only
 m1 <- fepois(
+  NUMPREC ~ foreign_born,
+  data = reg_data,
+  weights = ~PERWT,
+  cluster = ~SERIAL
+)
+
+# Model 2: add age
+m2 <- fepois(
   NUMPREC ~ foreign_born + AGE,
   data = reg_data,
-  weights = ~PERWT
+  weights = ~PERWT,
+  cluster = ~SERIAL
 )
 
-# Model 2: add state fixed effects
-m2 <- fepois(
+# Model 3: add state fixed effects
+m3 <- fepois(
   NUMPREC ~ foreign_born + AGE | STATEFIP,
   data = reg_data,
-  weights = ~PERWT
+  weights = ~PERWT,
+  cluster = ~SERIAL
 )
 
-# Model 3: add race/ethnicity (White omitted)
-m3 <- fepois(
+# Model 4: add race/ethnicity (White omitted)
+m4 <- fepois(
   NUMPREC ~ foreign_born + AGE + race_eth | STATEFIP,
   data = reg_data,
-  weights = ~PERWT
-)
-
-# Model 4: interact foreign-born with race/ethnicity
-m4 <- fepois(
-  NUMPREC ~ foreign_born * race_eth + AGE | STATEFIP,
-  data = reg_data,
-  weights = ~PERWT
+  weights = ~PERWT,
+  cluster = ~SERIAL
 )
 
 # Model 5: add age-at-arrival (0 for US-born; age when FB arrived in US)
 m5 <- fepois(
-  NUMPREC ~ foreign_born + age_at_arrival + AGE + race_eth | STATEFIP,
+  NUMPREC ~ foreign_born + AGE + race_eth + age_at_arrival | STATEFIP,
   data = reg_data,
-  weights = ~PERWT
+  weights = ~PERWT,
+  cluster = ~SERIAL
 )
-
-# # Model 6: interact age-at-arrival with race/ethnicity
-# m6 <- fepois(
-#   NUMPREC ~ foreign_born + age_at_arrival * race_eth + AGE | STATEFIP,
-#   data = reg_data,
-#   weights = ~PERWT
-# )
 
 models <- list(
   "Model 1" = m1,
   "Model 2" = m2,
   "Model 3" = m3,
   "Model 4" = m4,
-  "Model 5" = m5,
-  "Model 6" = m6
+  "Model 5" = m5
 )
 
 fe_rows <- tibble::tribble(
-  ~term,      ~"Model 1", ~"Model 2", ~"Model 3", ~"Model 4", ~"Model 5", ~"Model 6",
-  "State FE", "No",       "Yes",      "Yes",      "Yes",      "Yes",      "Yes"
+  ~term,      ~"Model 1", ~"Model 2", ~"Model 3", ~"Model 4", ~"Model 5",
+  "State FE", "No",       "No",       "Yes",      "Yes",      "Yes"
 )
 
 # ----- Step 3: Output ----- #

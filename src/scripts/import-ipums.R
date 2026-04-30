@@ -58,9 +58,11 @@ ipums_extract <- define_extract_micro(
     "OWNERSHP", "ROOMS", "BEDROOMS", "KITCHEN", "BUILTYR", "BUILTYR2", "SHOWER",
     "HOTWATER", "LINGISOL",
     # Person-level
-    "PERNUM", "PERWT", "RELATE", "SEX", "AGE", "RACE", "HISPAN", 
-    "YRIMMIG", "YRSUSA2", "MIGRATE5", "MIGRATE1", "MIGPLAC5", 
-    "MIGPLAC1", "MOVEDIN", "BPL", "BPLD", "CITIZEN", "EDUC", "NCHILD"
+    "PERNUM", "PERWT", "RELATE", "SEX", "AGE", "RACE", "HISPAN",
+    "YRIMMIG", "YRSUSA2", "MIGRATE5", "MIGRATE1", "MIGPLAC5",
+    "MIGPLAC1", "MOVEDIN", "BPL", "BPLD", "CITIZEN", "EDUC", "NCHILD",
+    # Household roster pointers + marital status (for Table 2)
+    "SPLOC", "MARST", "MOMLOC", "POPLOC"
     # "REPWTP", "UNITSSTR", # Probably not needed, add back in if needed
   )
 )

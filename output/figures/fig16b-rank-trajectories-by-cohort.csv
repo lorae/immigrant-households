@@ -1,0 +1,121 @@
+immig_cohort,rank,country,pop,region,highlight,line_class
+1919 or earlier,1,Italy,526771,Europe,FALSE,Notable past
+1919 or earlier,2,Canada,358472,Americas,FALSE,Notable past
+1919 or earlier,3,Other USSR/Russia,303817,Europe,FALSE,Other previous
+1919 or earlier,4,Poland,281127,Europe,FALSE,Other previous
+1919 or earlier,5,Germany,205798,Europe,FALSE,Notable past
+1919 or earlier,6,"Abroad, ns",197700,Other,FALSE,Other previous
+1919 or earlier,7,Mexico,185392,Americas,TRUE,Current top 10
+1919 or earlier,8,England,169861,Europe,FALSE,Notable past
+1919 or earlier,9,Austria,139391,Europe,FALSE,Other previous
+1919 or earlier,10,Czechoslovakia,86934,Europe,FALSE,Other previous
+1920s,1,Canada,189171,Americas,FALSE,Notable past
+1920s,2,Germany,166021,Europe,FALSE,Notable past
+1920s,3,Italy,116504,Europe,FALSE,Notable past
+1920s,4,Ireland,68666,Europe,FALSE,Other previous
+1920s,5,Mexico,59335,Americas,TRUE,Current top 10
+1920s,6,Scotland,49137,Europe,FALSE,Other previous
+1920s,7,Poland,45789,Europe,FALSE,Other previous
+1920s,8,England,45033,Europe,FALSE,Notable past
+1920s,9,Other USSR/Russia,26380,Europe,FALSE,Other previous
+1920s,10,Philippines,25666,Asia,FALSE,Notable past
+1930s,1,Germany,109122,Europe,FALSE,Notable past
+1930s,2,Canada,108040,Americas,FALSE,Notable past
+1930s,3,Italy,71726,Europe,FALSE,Notable past
+1930s,4,Mexico,49343,Americas,TRUE,Current top 10
+1930s,5,Austria,30650,Europe,FALSE,Other previous
+1930s,6,Poland,26617,Europe,FALSE,Other previous
+1930s,7,China,25485,Asia,TRUE,Current top 10
+1930s,8,England,16384,Europe,FALSE,Notable past
+1930s,9,Czechoslovakia,15309,Europe,FALSE,Other previous
+1930s,10,Greece,11392,Europe,FALSE,Other previous
+1940s,1,Canada,845800,Americas,FALSE,Notable past
+1940s,2,Italy,745645,Europe,FALSE,Notable past
+1940s,3,Mexico,556140,Americas,TRUE,Current top 10
+1940s,4,Poland,425622,Europe,FALSE,Other previous
+1940s,5,England,409385,Europe,FALSE,Notable past
+1940s,6,Germany,364304,Europe,FALSE,Notable past
+1940s,7,West Germany,305225,Europe,FALSE,Other previous
+1940s,8,"Abroad, ns",285401,Other,FALSE,Other previous
+1940s,9,Ireland,199468,Europe,FALSE,Other previous
+1940s,10,"USSR, ns",175676,Europe,FALSE,Other previous
+1950s,1,Germany,1357206,Europe,FALSE,Notable past
+1950s,2,Mexico,1180364,Americas,TRUE,Current top 10
+1950s,3,Canada,860980,Americas,FALSE,Notable past
+1950s,4,Italy,767173,Europe,FALSE,Notable past
+1950s,5,England,489381,Europe,FALSE,Notable past
+1950s,6,Japan,365450,Asia,FALSE,Other previous
+1950s,7,West Germany,325251,Europe,FALSE,Other previous
+1950s,8,Poland,306679,Europe,FALSE,Other previous
+1950s,9,Cuba,302030,Americas,TRUE,Current top 10
+1950s,10,Hungary,230671,Europe,FALSE,Other previous
+1960s,1,Mexico,2859836,Americas,TRUE,Current top 10
+1960s,2,Cuba,1936501,Americas,TRUE,Current top 10
+1960s,3,Germany,1335004,Europe,FALSE,Notable past
+1960s,4,Canada,1054882,Americas,FALSE,Notable past
+1960s,5,Italy,828395,Europe,FALSE,Notable past
+1960s,6,Philippines,739441,Asia,FALSE,Notable past
+1960s,7,England,633890,Europe,FALSE,Notable past
+1960s,8,Japan,478673,Asia,FALSE,Other previous
+1960s,9,China,455069,Asia,TRUE,Current top 10
+1960s,10,Dominican Republic,373219,Americas,FALSE,Notable past
+1970s,1,Mexico,7301635,Americas,TRUE,Current top 10
+1970s,2,Philippines,1733404,Asia,FALSE,Notable past
+1970s,3,Vietnam,1227046,Asia,FALSE,Notable past
+1970s,4,Korea,1130968,Asia,FALSE,Notable past
+1970s,5,India,883207,Asia,TRUE,Current top 10
+1970s,6,Germany,694464,Europe,FALSE,Notable past
+1970s,7,Cuba,690140,Americas,TRUE,Current top 10
+1970s,8,Jamaica,629218,Americas,FALSE,Other previous
+1970s,9,China,625870,Asia,TRUE,Current top 10
+1970s,10,Canada,577743,Americas,FALSE,Notable past
+1980s,1,Mexico,10499601,Americas,TRUE,Current top 10
+1980s,2,Philippines,2137922,Asia,FALSE,Notable past
+1980s,3,El Salvador,1608078,Americas,TRUE,Current top 10
+1980s,4,Vietnam,1543137,Asia,FALSE,Notable past
+1980s,5,Korea,1322936,Asia,FALSE,Notable past
+1980s,6,China,1302784,Asia,TRUE,Current top 10
+1980s,7,India,1236897,Asia,TRUE,Current top 10
+1980s,8,Dominican Republic,926075,Americas,FALSE,Notable past
+1980s,9,Jamaica,843970,Americas,FALSE,Other previous
+1980s,10,Germany,766509,Europe,FALSE,Notable past
+1990s,1,Mexico,13478870,Americas,TRUE,Current top 10
+1990s,2,India,1897200,Asia,TRUE,Current top 10
+1990s,3,China,1752117,Asia,TRUE,Current top 10
+1990s,4,Philippines,1751491,Asia,FALSE,Notable past
+1990s,5,Vietnam,1553179,Asia,FALSE,Notable past
+1990s,6,El Salvador,1227654,Americas,TRUE,Current top 10
+1990s,7,Dominican Republic,1040529,Americas,FALSE,Notable past
+1990s,8,Korea,908775,Asia,FALSE,Notable past
+1990s,9,Guatemala,788998,Americas,TRUE,Current top 10
+1990s,10,Cuba,787915,Americas,TRUE,Current top 10
+2000s,1,Mexico,9988936,Americas,TRUE,Current top 10
+2000s,2,India,2172455,Asia,TRUE,Current top 10
+2000s,3,China,1672946,Asia,TRUE,Current top 10
+2000s,4,Philippines,1515383,Asia,FALSE,Notable past
+2000s,5,El Salvador,1160721,Americas,TRUE,Current top 10
+2000s,6,Guatemala,1053843,Americas,TRUE,Current top 10
+2000s,7,Cuba,852936,Americas,TRUE,Current top 10
+2000s,8,Dominican Republic,797340,Americas,FALSE,Notable past
+2000s,9,Korea,751468,Asia,FALSE,Notable past
+2000s,10,Vietnam,736961,Asia,FALSE,Notable past
+2010s,1,Mexico,3260241,Americas,TRUE,Current top 10
+2010s,2,India,2188705,Asia,TRUE,Current top 10
+2010s,3,China,1588019,Asia,TRUE,Current top 10
+2010s,4,Philippines,950966,Asia,FALSE,Notable past
+2010s,5,Dominican Republic,854311,Americas,FALSE,Notable past
+2010s,6,Cuba,810042,Americas,TRUE,Current top 10
+2010s,7,Guatemala,760939,Americas,TRUE,Current top 10
+2010s,8,El Salvador,727546,Americas,TRUE,Current top 10
+2010s,9,Honduras,653428,Americas,TRUE,Current top 10
+2010s,10,Venezuela,615376,Americas,TRUE,Current top 10
+2020s,1,Mexico,979138,Americas,TRUE,Current top 10
+2020s,2,India,542960,Asia,TRUE,Current top 10
+2020s,3,Venezuela,286251,Americas,TRUE,Current top 10
+2020s,4,Cuba,274212,Americas,TRUE,Current top 10
+2020s,5,Colombia,261432,Americas,TRUE,Current top 10
+2020s,6,China,251623,Asia,TRUE,Current top 10
+2020s,7,Guatemala,250153,Americas,TRUE,Current top 10
+2020s,8,Honduras,246707,Americas,TRUE,Current top 10
+2020s,9,Brazil,208295,Americas,TRUE,Current top 10
+2020s,10,El Salvador,163411,Americas,TRUE,Current top 10

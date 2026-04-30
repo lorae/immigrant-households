@@ -26,7 +26,7 @@ ipums_person <- tbl(con, "ipums_person")
 
 # Sum person weights by cohort and birthplace, for immigrants only
 country_cohort <- ipums_person |>
-  filter(GQ %in% c(0, 1, 2), !is.na(immig_cohort)) |>
+  filter(GQ %in% c(0, 1, 2), !us_born, !is.na(immig_cohort)) |>
   group_by(immig_cohort, BPLD) |>
   summarise(pop = sum(PERWT, na.rm = TRUE), .groups = "drop") |>
   collect()
@@ -57,9 +57,8 @@ cohort_levels <- c(
 top10_wide <- top10 |>
   mutate(immig_cohort = factor(immig_cohort, levels = cohort_levels)) |>
   arrange(immig_cohort, rank) |>
-  mutate(label = paste0(rank, ". ", country)) |>
-  select(immig_cohort, rank, label) |>
-  pivot_wider(names_from = immig_cohort, values_from = label)
+  select(immig_cohort, rank, country) |>
+  pivot_wider(names_from = immig_cohort, values_from = country)
 
 # ----- Step 5: Save ----- #
 

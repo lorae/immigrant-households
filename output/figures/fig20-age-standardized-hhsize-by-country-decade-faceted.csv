@@ -1,0 +1,108 @@
+country,decade,std_mean,continent,color_group
+El Salvador,1970,3.954200328921486,Mexico and Central America,El Salvador
+El Salvador,1980,4.270480311510563,Mexico and Central America,El Salvador
+El Salvador,1990,5.136969260431641,Mexico and Central America,El Salvador
+El Salvador,2000,5.085907609162195,Mexico and Central America,El Salvador
+El Salvador,2010,4.534692598260596,Mexico and Central America,El Salvador
+El Salvador,2020,4.556809703654137,Mexico and Central America,El Salvador
+Guatemala,1970,3.9823230706018506,Mexico and Central America,Guatemala
+Guatemala,1980,4.217722164646842,Mexico and Central America,Guatemala
+Guatemala,1990,4.853149284218521,Mexico and Central America,Guatemala
+Guatemala,2000,4.839051377540967,Mexico and Central America,Guatemala
+Guatemala,2010,4.3361986947469875,Mexico and Central America,Guatemala
+Guatemala,2020,4.40442994927246,Mexico and Central America,Guatemala
+Honduras,1970,4.342237022722772,Mexico and Central America,Honduras
+Honduras,1980,3.9991809114870445,Mexico and Central America,Honduras
+Honduras,1990,4.5297079883281395,Mexico and Central America,Honduras
+Honduras,2000,4.545956100078616,Mexico and Central America,Honduras
+Honduras,2010,4.153113678417304,Mexico and Central America,Honduras
+Honduras,2020,4.227805034377802,Mexico and Central America,Honduras
+Mexico,1970,5.004290081399592,Mexico and Central America,Mexico
+Mexico,1980,4.983808761883632,Mexico and Central America,Mexico
+Mexico,1990,5.397209515139516,Mexico and Central America,Mexico
+Mexico,2000,5.376865802750784,Mexico and Central America,Mexico
+Mexico,2010,4.692882358992271,Mexico and Central America,Mexico
+Mexico,2020,4.4561051629560415,Mexico and Central America,Mexico
+US-born,1970,4.210281403219856,Mexico and Central America,US-born
+US-born,1980,3.62563578795271,Mexico and Central America,US-born
+US-born,1990,3.4098824579317695,Mexico and Central America,US-born
+US-born,2000,3.36737173930164,Mexico and Central America,US-born
+US-born,2010,3.3172491759418894,Mexico and Central America,US-born
+US-born,2020,3.3093023625775784,Mexico and Central America,US-born
+Cuba,1970,4.140820779967622,Caribbean,Cuba
+Cuba,1980,3.7300276907822694,Caribbean,Cuba
+Cuba,1990,3.65366441920726,Caribbean,Cuba
+Cuba,2000,3.615346952521435,Caribbean,Cuba
+Cuba,2010,3.4760796240111467,Caribbean,Cuba
+Cuba,2020,3.4691634623438876,Caribbean,Cuba
+Dominican Republic,1970,4.267656365465081,Caribbean,Dominican Republic
+Dominican Republic,1980,4.357042303012465,Caribbean,Dominican Republic
+Dominican Republic,1990,4.572477457557177,Caribbean,Dominican Republic
+Dominican Republic,2000,4.500217440219293,Caribbean,Dominican Republic
+Dominican Republic,2010,3.9605919766298294,Caribbean,Dominican Republic
+Dominican Republic,2020,3.915795891388782,Caribbean,Dominican Republic
+US-born,1970,4.210281403219856,Caribbean,US-born
+US-born,1980,3.62563578795271,Caribbean,US-born
+US-born,1990,3.4098824579317695,Caribbean,US-born
+US-born,2000,3.36737173930164,Caribbean,US-born
+US-born,2010,3.3172491759418894,Caribbean,US-born
+US-born,2020,3.3093023625775784,Caribbean,US-born
+Brazil,1970,3.93788845485405,South America,Brazil
+Brazil,1980,3.416898103884474,South America,Brazil
+Brazil,1990,3.412493155216923,South America,Brazil
+Brazil,2000,3.3901572480364117,South America,Brazil
+Brazil,2010,3.216139958348014,South America,Brazil
+Brazil,2020,3.3538426486436417,South America,Brazil
+Colombia,1970,4.466222625752379,South America,Colombia
+Colombia,1980,4.128457043374309,South America,Colombia
+Colombia,1990,3.9958331358417563,South America,Colombia
+Colombia,2000,4.01408110604555,South America,Colombia
+Colombia,2010,3.537542863654938,South America,Colombia
+Colombia,2020,3.520582805680193,South America,Colombia
+US-born,1970,4.210281403219856,South America,US-born
+US-born,1980,3.62563578795271,South America,US-born
+US-born,1990,3.4098824579317695,South America,US-born
+US-born,2000,3.36737173930164,South America,US-born
+US-born,2010,3.3172491759418894,South America,US-born
+US-born,2020,3.3093023625775784,South America,US-born
+Venezuela,1970,4.151995075392838,South America,Venezuela
+Venezuela,1980,3.551768853771281,South America,Venezuela
+Venezuela,1990,3.4960846933529717,South America,Venezuela
+Venezuela,2000,3.529327716881427,South America,Venezuela
+Venezuela,2010,3.405081925123529,South America,Venezuela
+Venezuela,2020,3.583496446272113,South America,Venezuela
+China,1970,4.143243053555389,Asia,China
+China,1980,4.076336859183176,Asia,China
+China,1990,4.19285251195366,Asia,China
+China,2000,3.757957814710097,Asia,China
+China,2010,3.553271355374771,Asia,China
+China,2020,3.511709801071051,Asia,China
+India,1970,3.362423650181873,Asia,India
+India,1980,3.8902249573114283,Asia,India
+India,1990,4.119099251574719,Asia,India
+India,2000,3.8166537472409483,Asia,India
+India,2010,3.6319103486994053,Asia,India
+India,2020,3.5247292419884526,Asia,India
+Korea,1970,3.7646966670548774,Asia,Korea
+Korea,1980,4.175157777208836,Asia,Korea
+Korea,1990,3.86123753248754,Asia,Korea
+Korea,2000,3.4305760599961994,Asia,Korea
+Korea,2010,3.2363642504120276,Asia,Korea
+Korea,2020,3.210577116209338,Asia,Korea
+Philippines,1970,4.392702555746924,Asia,Philippines
+Philippines,1980,4.677092213662734,Asia,Philippines
+Philippines,1990,4.607769865241855,Asia,Philippines
+Philippines,2000,4.4805391212943055,Asia,Philippines
+Philippines,2010,4.234210668947603,Asia,Philippines
+Philippines,2020,4.160969772908808,Asia,Philippines
+US-born,1970,4.210281403219856,Asia,US-born
+US-born,1980,3.62563578795271,Asia,US-born
+US-born,1990,3.4098824579317695,Asia,US-born
+US-born,2000,3.36737173930164,Asia,US-born
+US-born,2010,3.3172491759418894,Asia,US-born
+US-born,2020,3.3093023625775784,Asia,US-born
+Vietnam,1980,5.694119019029297,Asia,Vietnam
+Vietnam,1990,5.153973614668823,Asia,Vietnam
+Vietnam,2000,4.708729922497659,Asia,Vietnam
+Vietnam,2010,4.237932082248031,Asia,Vietnam
+Vietnam,2020,4.144753518647719,Asia,Vietnam
