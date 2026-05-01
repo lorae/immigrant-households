@@ -1,9 +1,10 @@
-# Average household size by arrival cohort x decade,
-# age-standardized to US-born age distribution in 2020.
+# Average household size by arrival cohort x decade, restricted to a
+# synthetic-cohort age window (people of a fixed birth-year range followed
+# across decades). age_2020 = AGE + (2020 - ref_year) is the person's age
+# as they would be in 2020, used as a stable cohort identifier across
+# samples.
 #
-# Outputs:
-# - output/figures/fig21-age-standardized-hhsize-by-cohort-decade.csv
-# - output/figures/fig21-age-standardized-hhsize-by-cohort-decade.jpeg
+# Outputs: TBD
 
 # ----- Step 0: Configuration ----- #
 library("dplyr")
@@ -35,160 +36,117 @@ cohort_first_complete_decade <- c(
   "2000s" = 2010, "2010s" = 2020, "2020s" = 2030
 )
 
-# ----- Step 2: Connect and build lazy frames ----- #
+# ----- Step 2: Connect and isolate data ----- #
+# MULTYEAR is the per-record interview year for ACS multi-year files and
+# is NA for decennial census records, so coalesce(MULTYEAR, YEAR) gives
+# the actual year the person was observed. age_2020 shifts everyone onto
+# a common 2020 reference so a fixed birth cohort is identifiable across
+# samples (e.g. age_2020 in [30, 39] = born 1981-1990).
 
 con <- dbConnect(duckdb::duckdb(), "data/db/ipums.duckdb")
 ipums_person <- tbl(con, "ipums_person")
 
-# Comparison: foreign-born with a known arrival cohort
-comparison <- ipums_person |>
+data <- ipums_person |>
   filter(
     GQ %in% c(0, 1, 2),
-    !us_born,
-    decade %in% decades_keep,
-    !is.na(age_bucket),
-    !is.na(immig_cohort)
+    decade %in% decades_keep
+  ) |>
+  mutate(
+    ref_year = coalesce(MULTYEAR, YEAR),
+    age_2020 = AGE + (2020 - ref_year)
   )
 
-# Reference: US-born population in 2020
-reference <- ipums_person |>
-  filter(GQ %in% c(0, 1, 2), us_born, decade == 2020, !is.na(age_bucket))
+# ----- Step 3: Define synthetic cohorts ----- #
+# Each synthetic cohort is one arrival cohort restricted to a fixed
+# birth-year window, named by the age window it occupied in its first
+# fully-observed decade. Because age_2020 is invariant for an individual,
+# a synthetic cohort is equivalently (immig_cohort, age_2020 range).
+#
+# Example: cohort_1970s_30s = arrived in the 1970s and aged 30-39 in 1980
+# (born 1941-1950 = age_2020 in [70, 79]). This same group appears as
+# 40-49 in 1990, 50-59 in 2000, 60-69 in 2010, and 70-79 in 2020.
 
-# ----- Step 3: Standardize by (immig_cohort, decade) ----- #
-# Per-row matched reference: for each (cohort, decade) we use the US-born
-# 2020 age distribution restricted to the buckets the cohort actually
-# populates, renormalized to sum to 100%. This lets older cohorts (whose
-# under-18 bucket is structurally empty) still be standardized against
-# the buckets they have, at the cost of using a different reference per row.
+# age_2020 window per cohort: anchor = arrival_decade + 10, age 30-39 at
+# anchor → age_2020 in [2040 - arrival_decade, 2049 - arrival_decade].
+# Also require decade >= anchor: April-of-anchor-year censuses capture
+# early arrivers from that same decade at pre-anchor ages, which would
+# otherwise contaminate the cohort with a biased fragment of itself.
+data <- data |>
+  mutate(
+    cohort_1940s_30s = immig_cohort == "1940s" & age_2020 >= 100 & age_2020 <= 109 & decade >= 1950,
+    cohort_1950s_30s = immig_cohort == "1950s" & age_2020 >= 90  & age_2020 <= 99  & decade >= 1960,
+    cohort_1960s_30s = immig_cohort == "1960s" & age_2020 >= 80  & age_2020 <= 89  & decade >= 1970,
+    cohort_1970s_30s = immig_cohort == "1970s" & age_2020 >= 70  & age_2020 <= 79  & decade >= 1980,
+    cohort_1980s_30s = immig_cohort == "1980s" & age_2020 >= 60  & age_2020 <= 69  & decade >= 1990,
+    cohort_1990s_30s = immig_cohort == "1990s" & age_2020 >= 50  & age_2020 <= 59  & decade >= 2000,
+    cohort_2000s_30s = immig_cohort == "2000s" & age_2020 >= 40  & age_2020 <= 49  & decade >= 2010,
+    cohort_2010s_30s = immig_cohort == "2010s" & age_2020 >= 30  & age_2020 <= 39  & decade >= 2020
+  )
 
-# US-born 2020 reference: percentage in each age_bucket
-ref_props <- crosstab_percent(
-  data = reference,
-  wt_col = "PERWT",
-  group_by = "age_bucket",
-  percent_group_by = character(0)
-) |>
-  select(age_bucket, ref_pct = percent)
+# ----- Step 4: Aggregate hhsize by (synth cohort, decade) ----- #
+# Each person belongs to at most one synthetic cohort (mutually exclusive
+# by construction), so we collapse the eight indicators to one categorical
+# column and weight-average NUMPREC per (synth_cohort, decade).
 
-# Foreign-born cell means by (immig_cohort, decade, age_bucket)
-cell_means <- crosstab_mean(
-  data = comparison,
+synth_cohort_levels <- c("1940s", "1950s", "1960s", "1970s",
+                         "1980s", "1990s", "2000s", "2010s")
+
+cohort_data <- data |>
+  mutate(
+    synth_cohort = case_when(
+      cohort_1940s_30s ~ "1940s",
+      cohort_1950s_30s ~ "1950s",
+      cohort_1960s_30s ~ "1960s",
+      cohort_1970s_30s ~ "1970s",
+      cohort_1980s_30s ~ "1980s",
+      cohort_1990s_30s ~ "1990s",
+      cohort_2000s_30s ~ "2000s",
+      cohort_2010s_30s ~ "2010s"
+    )
+  ) |>
+  filter(!is.na(synth_cohort))
+
+agg <- crosstab_mean(
+  data = cohort_data,
   value = "NUMPREC",
   wt_col = "PERWT",
-  group_by = c("immig_cohort", "decade", "age_bucket"),
-  every_combo = TRUE
+  group_by = c("synth_cohort", "decade")
 )
-
-# Renormalized sumprod: drop NA cells, divide by sum of used reference weights
-std_hhsize <- cell_means |>
-  filter(!is.na(weighted_mean)) |>
-  left_join(ref_props, by = "age_bucket") |>
-  group_by(immig_cohort, decade) |>
-  summarize(
-    std_mean = sum(weighted_mean * ref_pct) / sum(ref_pct),
-    n_buckets_used = n(),
-    ref_weight_used = sum(ref_pct),
-    .groups = "drop"
-  )
-
-# Raw (unstandardized) mean per (immig_cohort, decade)
-raw_means <- crosstab_mean(
-  data = comparison,
-  value = "NUMPREC",
-  wt_col = "PERWT",
-  group_by = c("immig_cohort", "decade")
-) |>
-  select(immig_cohort, decade, raw_mean = weighted_mean, n_obs = count)
-
-std_hhsize <- std_hhsize |>
-  left_join(raw_means, by = c("immig_cohort", "decade"))
 
 dbDisconnect(con)
 
-# ----- Step 4: Drop incomplete / pre-arrival cohort x decade combos ----- #
-
-plot_data <- std_hhsize |>
-  filter(immig_cohort %in% cohort_levels) |>
-  mutate(
-    first_complete = cohort_first_complete_decade[immig_cohort],
-    immig_cohort = factor(immig_cohort, levels = cohort_levels)
-  ) |>
-  filter(decade >= first_complete) |>
-  select(-first_complete) |>
-  arrange(immig_cohort, decade)
+plot_data <- agg |>
+  mutate(synth_cohort = factor(synth_cohort, levels = synth_cohort_levels)) |>
+  arrange(synth_cohort, decade)
 
 dir.create("output/figures", showWarnings = FALSE, recursive = TRUE)
-write_csv(
-  plot_data,
-  "output/figures/fig21-age-standardized-hhsize-by-cohort-decade.csv"
-)
+write_csv(plot_data, "output/figures/fig21-synthetic-cohort-30s-hhsize.csv")
 
 print(plot_data, n = Inf)
 
 # ----- Step 5: Plot ----- #
 
-# Assign a segment id within each cohort so that gaps > 10 years (decades
-# with no observations) break the line rather than being bridged.
-plot_data_nonNA <- plot_data |>
-  filter(!is.na(std_mean)) |>
-  arrange(immig_cohort, decade) |>
-  group_by(immig_cohort) |>
-  mutate(
-    gap_break  = (decade - lag(decade, default = first(decade))) > 10,
-    segment_id = cumsum(gap_break)
-  ) |>
-  ungroup() |>
-  mutate(segment = paste(immig_cohort, segment_id, sep = "_"))
-
 fig21 <- ggplot(
-  plot_data_nonNA,
-  aes(x = decade, y = std_mean, color = immig_cohort, group = segment)
+  plot_data,
+  aes(x = decade, y = weighted_mean, color = synth_cohort, group = synth_cohort)
 ) +
   geom_line(linewidth = 1) +
   geom_point(size = 1.5) +
   scale_color_manual(
-    values = rainbow(length(cohort_levels), start = 0, end = 0.85)
+    values = rainbow(length(synth_cohort_levels), start = 0, end = 0.85)
   ) +
   scale_x_continuous(breaks = decades_keep) +
   labs(
     x = "Year",
-    y = "Persons per Household (age-standardized to US-born 2020)",
-    color = "Decade of Immigration"
+    y = "Persons per household",
+    color = "Arrival cohort"
   ) +
   theme_minimal() +
   theme(panel.grid.minor = element_blank())
 
 ggsave(
-  filename = "output/figures/fig21-age-standardized-hhsize-by-cohort-decade.jpeg",
+  filename = "output/figures/fig21-synthetic-cohort-30s-hhsize.jpeg",
   plot = fig21,
-  width = 7,
-  height = 6,
-  dpi = 500
-)
-
-# ----- Step 6: Raw (unstandardized) version ----- #
-
-fig21_raw <- ggplot(
-  plot_data_nonNA,
-  aes(x = decade, y = raw_mean, color = immig_cohort, group = segment)
-) +
-  geom_line(linewidth = 1) +
-  geom_point(size = 1.5) +
-  scale_color_manual(
-    values = rainbow(length(cohort_levels), start = 0, end = 0.85)
-  ) +
-  scale_x_continuous(breaks = decades_keep) +
-  labs(
-    x = "Year",
-    y = "Persons per Household (raw)",
-    color = "Decade of Immigration"
-  ) +
-  theme_minimal() +
-  theme(panel.grid.minor = element_blank())
-
-ggsave(
-  filename = "output/figures/fig21b-raw-hhsize-by-cohort-decade.jpeg",
-  plot = fig21_raw,
   width = 7,
   height = 6,
   dpi = 500
