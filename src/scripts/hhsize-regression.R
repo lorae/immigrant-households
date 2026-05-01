@@ -4,11 +4,17 @@
 # fixest::fepois; SEs clustered at the household level.
 #
 # Outputs:
-# - output/tables/hhsize-regression.docx                (log coefficients;
-#                                                        AGE and age_at_arrival
-#                                                        in decades)
-# - output/tables/hhsize-regression-multiplicative.docx (exp(beta) of the same
-#                                                        models)
+# - output/tables/hhsize-regression.docx                          (log coefs;
+#                                                                  AGE and age_
+#                                                                  at_arrival
+#                                                                  in decades)
+# - output/tables/hhsize-regression-multiplicative.docx           (exp(beta))
+# - output/tables/hhsize-regression-by-decade.docx                (M5 spec, one
+#                                                                  fit per
+#                                                                  decade
+#                                                                  sample/ACS
+#                                                                  pool)
+# - output/tables/hhsize-regression-by-decade-multiplicative.docx (exp(beta))
 #
 # ----- Step 0: Configuration ----- #
 library("dplyr")
@@ -167,4 +173,87 @@ modelsummary(
   coef_map = coef_map,
   gof_map = gof_map,
   add_rows = fe_rows
+)
+
+# ----- Step 4: M5 fit per decade sample / ACS pool ----- #
+# Run the full M5 spec separately on each of the four decennial census
+# samples (1970-2000) and the two ACS pools (2010, 2020). No pooled model.
+# RHS, scaling, weights, and clustering match Step 2's M5 exactly.
+#
+# Notes:
+# - SERIAL is only unique within a YEAR, so cluster on hh_id = paste(YEAR, SERIAL).
+# - MULTYEAR (per-record interview year) only exists for ACS samples; for
+#   decennial census records it is NA. coalesce(MULTYEAR, YEAR) gives the
+#   correct reference year for age-at-arrival in both cases.
+
+decades_to_fit <- c(1970, 1980, 1990, 2000, 2010, 2020)
+
+con <- dbConnect(duckdb::duckdb(), "data/db/ipums.duckdb")
+ipums_person <- tbl(con, "ipums_person")
+
+reg_data_by_decade <- ipums_person |>
+  filter(
+    GQ %in% c(0, 1, 2),
+    decade %in% decades_to_fit
+  ) |>
+  dplyr::select(
+    NUMPREC, us_born, AGE, PERWT, STATEFIP, race_eth,
+    YRIMMIG, YEAR, MULTYEAR, decade, SERIAL
+  ) |>
+  collect() |>
+  mutate(
+    foreign_born = as.integer(!us_born),
+    ref_year = coalesce(MULTYEAR, YEAR),
+    age_at_arrival = case_when(
+      us_born ~ 0L,
+      !us_born & YRIMMIG > 0 ~ AGE - (ref_year - YRIMMIG),
+      TRUE ~ NA_integer_
+    ),
+    AGE_decade            = AGE / 10,
+    age_at_arrival_decade = age_at_arrival / 10,
+    race_eth = factor(
+      race_eth,
+      levels = c("White", "Hispanic", "Black", "AAPI", "AIAN", "Multiracial", "Other")
+    ),
+    hh_id = paste(YEAR, SERIAL, sep = "_")
+  )
+
+dbDisconnect(con)
+
+fit_m5_for_decade <- function(dec) {
+  fepois(
+    NUMPREC ~ age_at_arrival_decade + AGE_decade + race_eth * foreign_born | STATEFIP,
+    data    = reg_data_by_decade |> filter(decade == dec),
+    weights = ~PERWT,
+    cluster = ~hh_id
+  )
+}
+
+models_by_decade <- lapply(decades_to_fit, fit_m5_for_decade)
+names(models_by_decade) <- as.character(decades_to_fit)
+
+fe_rows_by_decade <- tibble::tribble(
+  ~term,      ~"1970", ~"1980", ~"1990", ~"2000", ~"2010", ~"2020",
+  "State FE", "Yes",   "Yes",   "Yes",   "Yes",   "Yes",   "Yes"
+)
+
+# Log-coefficient table, one column per decade
+modelsummary(
+  models_by_decade,
+  output = "output/tables/hhsize-regression-by-decade.docx",
+  stars = TRUE,
+  coef_map = coef_map,
+  gof_map = gof_map,
+  add_rows = fe_rows_by_decade
+)
+
+# Multiplicative version
+modelsummary(
+  models_by_decade,
+  output = "output/tables/hhsize-regression-by-decade-multiplicative.docx",
+  stars = TRUE,
+  exponentiate = TRUE,
+  coef_map = coef_map,
+  gof_map = gof_map,
+  add_rows = fe_rows_by_decade
 )
