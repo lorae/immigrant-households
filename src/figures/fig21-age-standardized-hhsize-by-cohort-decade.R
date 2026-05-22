@@ -56,68 +56,55 @@ data <- ipums_person |>
     age_2020 = AGE + (2020 - ref_year)
   )
 
-# ----- Step 3: Define synthetic cohorts ----- #
-# Each synthetic cohort is one arrival cohort restricted to a fixed
-# birth-year window, named by the age window it occupied in its first
-# fully-observed decade. Because age_2020 is invariant for an individual,
-# a synthetic cohort is equivalently (immig_cohort, age_2020 range).
+# ----- Step 3: Assign synthetic cohort + nativity ----- #
+# synth_cohort labels each row with the arrival decade of its synthetic
+# cohort (e.g. "1980s"). US-born controls share the cohort label of the
+# foreign-born group they match on age_2020 window and observation
+# decades, with nativity carrying the foreign/US distinction.
 #
-# Example: cohort_1970s_30s = arrived in the 1970s and aged 30-39 in 1980
-# (born 1941-1950 = age_2020 in [70, 79]). This same group appears as
-# 40-49 in 1990, 50-59 in 2000, 60-69 in 2010, and 70-79 in 2020.
-
-# age_2020 window per cohort: anchor = arrival_decade + 10, age 30-39 at
-# anchor → age_2020 in [2040 - arrival_decade, 2049 - arrival_decade].
+# age_2020 window: anchor = arrival_decade + 10, age 30-39 at anchor
+# → age_2020 in [2040 - arrival_decade, 2049 - arrival_decade].
 # Also require decade >= anchor: April-of-anchor-year censuses capture
 # early arrivers from that same decade at pre-anchor ages, which would
 # otherwise contaminate the cohort with a biased fragment of itself.
+
 data <- data |>
   mutate(
-    cohort_1940s_30s = immig_cohort == "1940s" & age_2020 >= 100 & age_2020 <= 109 & decade >= 1950,
-    cohort_1950s_30s = immig_cohort == "1950s" & age_2020 >= 90  & age_2020 <= 99  & decade >= 1960,
-    cohort_1960s_30s = immig_cohort == "1960s" & age_2020 >= 80  & age_2020 <= 89  & decade >= 1970,
-    cohort_1970s_30s = immig_cohort == "1970s" & age_2020 >= 70  & age_2020 <= 79  & decade >= 1980,
-    cohort_1980s_30s = immig_cohort == "1980s" & age_2020 >= 60  & age_2020 <= 69  & decade >= 1990,
-    cohort_1990s_30s = immig_cohort == "1990s" & age_2020 >= 50  & age_2020 <= 59  & decade >= 2000,
-    cohort_2000s_30s = immig_cohort == "2000s" & age_2020 >= 40  & age_2020 <= 49  & decade >= 2010,
-    cohort_2010s_30s = immig_cohort == "2010s" & age_2020 >= 30  & age_2020 <= 39  & decade >= 2020
+    synth_cohort = case_when(
+      (immig_cohort == "1940s" | us_born) & age_2020 >= 100 & age_2020 <= 109 & decade >= 1950 ~ "1940s",
+      (immig_cohort == "1950s" | us_born) & age_2020 >= 90  & age_2020 <= 99  & decade >= 1960 ~ "1950s",
+      (immig_cohort == "1960s" | us_born) & age_2020 >= 80  & age_2020 <= 89  & decade >= 1970 ~ "1960s",
+      (immig_cohort == "1970s" | us_born) & age_2020 >= 70  & age_2020 <= 79  & decade >= 1980 ~ "1970s",
+      (immig_cohort == "1980s" | us_born) & age_2020 >= 60  & age_2020 <= 69  & decade >= 1990 ~ "1980s",
+      (immig_cohort == "1990s" | us_born) & age_2020 >= 50  & age_2020 <= 59  & decade >= 2000 ~ "1990s",
+      (immig_cohort == "2000s" | us_born) & age_2020 >= 40  & age_2020 <= 49  & decade >= 2010 ~ "2000s",
+      (immig_cohort == "2010s" | us_born) & age_2020 >= 30  & age_2020 <= 39  & decade >= 2020 ~ "2010s"
+    ),
+    nativity = if_else(us_born, "US-born", "Foreign-born")
   )
 
-# ----- Step 4: Aggregate hhsize by (synth cohort, decade) ----- #
-# Each person belongs to at most one synthetic cohort (mutually exclusive
-# by construction), so we collapse the eight indicators to one categorical
-# column and weight-average NUMPREC per (synth_cohort, decade).
+# ----- Step 4: Aggregate hhsize by (synth_cohort, decade, nativity) ----- #
 
-synth_cohort_levels <- c("1940s", "1950s", "1960s", "1970s",
-                         "1980s", "1990s", "2000s", "2010s")
+arrival_levels <- c("1940s", "1950s", "1960s", "1970s",
+                    "1980s", "1990s", "2000s", "2010s")
 
-cohort_data <- data |>
-  mutate(
-    synth_cohort = case_when(
-      cohort_1940s_30s ~ "1940s",
-      cohort_1950s_30s ~ "1950s",
-      cohort_1960s_30s ~ "1960s",
-      cohort_1970s_30s ~ "1970s",
-      cohort_1980s_30s ~ "1980s",
-      cohort_1990s_30s ~ "1990s",
-      cohort_2000s_30s ~ "2000s",
-      cohort_2010s_30s ~ "2010s"
-    )
-  ) |>
-  filter(!is.na(synth_cohort))
+cohort_data <- data |> filter(!is.na(synth_cohort))
 
 agg <- crosstab_mean(
   data = cohort_data,
   value = "NUMPREC",
   wt_col = "PERWT",
-  group_by = c("synth_cohort", "decade")
+  group_by = c("synth_cohort", "decade", "nativity")
 )
 
 dbDisconnect(con)
 
 plot_data <- agg |>
-  mutate(synth_cohort = factor(synth_cohort, levels = synth_cohort_levels)) |>
-  arrange(synth_cohort, decade)
+  mutate(
+    synth_cohort = factor(synth_cohort, levels = arrival_levels),
+    nativity = factor(nativity, levels = c("Foreign-born", "US-born"))
+  ) |>
+  arrange(synth_cohort, nativity, decade)
 
 dir.create("output/figures", showWarnings = FALSE, recursive = TRUE)
 write_csv(plot_data, "output/figures/fig21-synthetic-cohort-30s-hhsize.csv")
@@ -128,18 +115,38 @@ print(plot_data, n = Inf)
 
 fig21 <- ggplot(
   plot_data,
-  aes(x = decade, y = weighted_mean, color = synth_cohort, group = synth_cohort)
+  aes(
+    x = decade, y = weighted_mean,
+    color = synth_cohort,
+    linetype = nativity, linewidth = nativity, alpha = nativity,
+    group = interaction(synth_cohort, nativity)
+  )
 ) +
-  geom_line(linewidth = 1) +
+  geom_line() +
   geom_point(size = 1.5) +
   scale_color_manual(
-    values = rainbow(length(synth_cohort_levels), start = 0, end = 0.85)
+    values = c(
+      "1940s" = "#E88DFF",
+      "1950s" = "#ff8fc8",
+      "1960s" = "#ffa489",
+      "1970s" = "#ffb84a",
+      "1980s" = "#b5c984",
+      "1990s" = "#6bd9bd",
+      "2000s" = "#83daf1",
+      "2010s" = "#a5c3ff"
+    )
   ) +
+  scale_linetype_manual(values = c("Foreign-born" = "solid",  "US-born" = "12")) +
+  scale_linewidth_manual(values = c("Foreign-born" = 1.4,      "US-born" = 0.8)) +
+  scale_alpha_manual(values = c("Foreign-born" = 1,            "US-born" = 1)) +
   scale_x_continuous(breaks = decades_keep) +
   labs(
     x = "Year",
     y = "Persons per household",
-    color = "Arrival cohort"
+    color = "Arrival cohort",
+    linetype = "Nativity",
+    linewidth = "Nativity",
+    alpha = "Nativity"
   ) +
   theme_minimal() +
   theme(panel.grid.minor = element_blank())

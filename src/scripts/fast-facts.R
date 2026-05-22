@@ -5,6 +5,7 @@ library("dplyr")
 library("duckdb")
 library("dbplyr")
 library("ggplot2")
+library("ipumsr")
 
 devtools::load_all("../demographr")
 
@@ -144,3 +145,74 @@ white_immig_1970
 white_immig_2020
 
 (white_immig_1970 - white_immig_2020) / white_immig_1970
+
+# In Figure 20, we plot age-standardized household size for foreign-born
+# residents from 14 countries of origin. Together, these 14 countries
+# accounted for __% of all foreign-born residents in the 2018-22 ACS pool.
+# Country labels are matched on BPLD via the IPUMS DDI, mirroring
+# src/figures/fig20-age-standardized-hhsize-by-country-decade-faceted.R.
+ddi_path <- list.files("data/ipums-microdata", pattern = "\\.xml$", full.names = TRUE)[1]
+bpld_labels <- ipums_val_labels(read_ipums_ddi(ddi_path), "BPLD") |>
+  as_tibble() |>
+  rename(BPLD = val, country = lbl)
+
+countries_of_interest <- c(
+  "Mexico", "Guatemala", "Honduras", "El Salvador",
+  "Cuba", "Dominican Republic",
+  "Venezuela", "Colombia", "Brazil",
+  "India", "China", "Philippines", "Korea", "Vietnam"
+)
+
+target_labels <- bpld_labels |> filter(country %in% countries_of_interest)
+
+fb_total_2020 <- ipums_person |>
+  filter(GQ %in% c(0, 1, 2), !us_born, decade == 2020) |>
+  summarize(fb_total = sum(PERWT, na.rm = TRUE)) |>
+  collect() |>
+  pull(fb_total)
+
+fb_by_country <- ipums_person |>
+  filter(GQ %in% c(0, 1, 2), !us_born, decade == 2020) |>
+  inner_join(target_labels, by = "BPLD", copy = TRUE) |>
+  group_by(country) |>
+  summarize(fb_count = sum(PERWT, na.rm = TRUE), .groups = "drop") |>
+  collect() |>
+  mutate(percent = 100 * fb_count / fb_total_2020) |>
+  arrange(desc(percent))
+
+fb_share_fig20 <- bind_rows(
+  fb_by_country,
+  tibble(
+    country  = "TOTAL (14 countries)",
+    fb_count = sum(fb_by_country$fb_count),
+    percent  = sum(fb_by_country$percent)
+  )
+)
+
+fb_share_fig20
+
+# In Figure 3, we plot household size over the last half-century among
+# native- and foreign-born populations of Black, Hispanic, AAPI, and White
+# Americans. In 2020 (2018-22 ACS pool), these four groups collectively
+# accounted for __% of the native-born population and __% of the
+# foreign-born population.
+race_nat_4grp <- crosstab_percent(
+  data = ipums_person |> filter(GQ %in% c(0, 1, 2) & decade == 2020),
+  wt_col = "PERWT",
+  group_by = c("race_eth", "us_born"),
+  percent_group_by = c("us_born")
+)
+
+groups_4 <- c("Black", "Hispanic", "AAPI", "White")
+
+race_nat_4grp_breakdown <- race_nat_4grp |>
+  filter(race_eth %in% groups_4) |>
+  mutate(nativity = if_else(us_born, "Native-born", "Foreign-born")) |>
+  dplyr::select(nativity, race_eth, percent) |>
+  arrange(nativity, desc(percent))
+
+race_nat_4grp_breakdown
+
+race_nat_4grp_breakdown |>
+  group_by(nativity) |>
+  summarize(total_4_groups = sum(percent), .groups = "drop")

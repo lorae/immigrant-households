@@ -274,8 +274,10 @@ plot_data_nb <- plot_data_exploded |> filter(nativity == "US-born")
 plot_data_fb <- plot_data_exploded |> filter(nativity == "Foreign-born")
 
 fig_tbl2_exploded <- ggplot(mapping = aes(x = decade, y = mean, fill = component)) +
-  geom_col(data = plot_data_nb, width = 9, alpha = 0.3) +
-  geom_col(data = plot_data_fb, width = 5, alpha = 0.7) +
+  geom_col(data = plot_data_nb, aes(alpha = nativity), width = 9,
+           color = "grey30", linewidth = 0.2) +
+  geom_col(data = plot_data_fb, aes(alpha = nativity), width = 5,
+           color = "grey30", linewidth = 0.2) +
   facet_grid(
     rows = vars(component),
     cols = vars(race_eth),
@@ -287,24 +289,28 @@ fig_tbl2_exploded <- ggplot(mapping = aes(x = decade, y = mean, fill = component
     "Other adults" = "#7570B3",  # indigo
     "Seniors"      = "#E7298A"   # magenta
   ), guide = "none") +
+  scale_alpha_manual(
+    values = c("US-born" = 0.3, "Foreign-born" = 0.7),
+    name   = NULL,
+    labels = c("US-born (wide, pale)", "Foreign-born (narrow, dark)")
+  ) +
   scale_x_continuous(breaks = c(1970, 1980, 1990, 2000, 2010, 2020)) +
   labs(
     x = NULL,
-    y = "Mean household co-residents (adults)",
-    title = "Household composition by component, race, and decade",
-    subtitle = "Wide pale bars = US-born; narrow dark bars = foreign-born"
+    y = "Mean number of coresidents"
   ) +
-  theme_minimal() +
+  theme_minimal(base_size = 14) +
   theme(
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank(),
-    strip.text.y = element_text(angle = 0)
+    strip.text.y = element_text(angle = 0),
+    legend.position = "bottom"
   )
 
 ggsave(
   "output/figures/tbl-2-household-roster-exploded.jpeg",
   plot = fig_tbl2_exploded,
-  width = 10,
-  height = 7,
+  width = 12,
+  height = 8,
   dpi = 500
 )

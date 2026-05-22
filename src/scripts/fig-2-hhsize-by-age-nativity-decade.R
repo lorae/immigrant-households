@@ -40,10 +40,10 @@ dbDisconnect(con)
 # ----- Step 2: Graph ----- #
 
 age_colors <- c(
-  "17 or younger" = "#a6cee3",
-  "18-29"         = "#1f78b4",
-  "30-49"         = "#33a02c",
-  "50 and older"  = "#b2df8a"
+  "17 or younger" = "#ff8fc8",
+  "18-29"         = "#ffb84a",
+  "30-49"         = "#6bd9bd",
+  "50 and older"  = "#a5c3ff"
 )
 
 fig2 <- ggplot(
@@ -59,13 +59,12 @@ fig2 <- ggplot(
   geom_line(linewidth = 1.1) +
   geom_point(size = 2) +
   scale_color_manual(values = age_colors) +
-  scale_linetype_manual(values = c("US-born" = "solid", "Foreign-born" = "dashed")) +
+  scale_linetype_manual(values = c("Foreign-born" = "solid", "US-born" = "12")) +
   labs(
     x = NULL,
     y = "Mean household size",
     color = "Age group",
-    linetype = NULL,
-    title = "Household size by age, nativity, and decade"
+    linetype = NULL
   ) +
   theme_minimal() +
   theme(

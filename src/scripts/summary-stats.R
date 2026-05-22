@@ -106,3 +106,24 @@ age_by_nativity_2022_bar <- ggplot(
   )
 
 age_by_nativity_2022_bar
+
+# Presentation version: bigger fonts, legend on the right, wider, no y label.
+# (Title kept — wasn't asked to be removed.)
+age_by_nativity_2022_bar_presentation <- age_by_nativity_2022_bar +
+  labs(y = NULL, title = NULL) +
+  theme_minimal(base_size = 18) +
+  theme(
+    legend.position    = "right",
+    legend.direction   = "vertical",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  )
+
+dir.create("output/figures", showWarnings = FALSE, recursive = TRUE)
+ggsave(
+  filename = "output/figures/age-distribution-by-nativity-2022-presentation.jpeg",
+  plot = age_by_nativity_2022_bar_presentation,
+  width = 10,
+  height = 6,
+  dpi = 600
+)
